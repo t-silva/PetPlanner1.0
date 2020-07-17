@@ -2,13 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/bottomSheet1"
+    android:id="@+id/bottomSheetHumor"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingStart="41dp"
+
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent">
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,13 +21,15 @@
         android:lineSpacingExtra="5sp"
         android:text="Humor"
         android:textColor="#000000"
-        android:textSize="17sp" />
-
+        android:textSize="17sp"
+        android:textStyle="bold" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="56dp">
 
 
         <LinearLayout
@@ -62,6 +65,7 @@
 
 
             </LinearLayout>
+
             <View
 
                 android:layout_width="match_parent"
@@ -69,6 +73,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:background="#d1d1d6" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
@@ -116,8 +121,8 @@
                     android:id="@+id/imgOk"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0"
                     android:layout_gravity="center_vertical"
+                    android:layout_weight="0"
                     android:src="@drawable/humor_ok" />
 
                 <TextView
@@ -134,6 +139,7 @@
 
 
             </LinearLayout>
+
             <View
 
                 android:layout_width="match_parent"
@@ -141,6 +147,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:background="#d1d1d6" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
@@ -151,8 +158,8 @@
                     android:id="@+id/imgBad"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0"
                     android:layout_gravity="center_vertical"
+                    android:layout_weight="0"
                     android:src="@drawable/humor_bad" />
 
                 <TextView
@@ -171,19 +178,19 @@
             </LinearLayout>
 
         </LinearLayout>
+
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <RadioGroup
+                android:id="@+id/rdHumor"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:divider="?android:attr/dividerHorizontal"
-                android:showDividers="middle"
 
-                >
+                android:showDividers="middle">
 
                 <RadioButton
                     android:id="@+id/rdbExc"
@@ -213,13 +220,6 @@
         </LinearLayout>
     </LinearLayout>
 
-
-    <Button
-        android:id="@+id/btnOk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="ok" />
 
 </LinearLayout>
 
