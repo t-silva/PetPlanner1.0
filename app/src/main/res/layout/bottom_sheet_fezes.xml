@@ -168,22 +168,23 @@
                 </RadioGroup>
             </LinearLayout>
         </LinearLayout>
+
         <View
             android:id="@+id/divider"
             android:layout_width="313dp"
             android:layout_height="1dp"
-            android:layout_marginBottom="21dp"
+            android:layout_marginBottom="20dp"
             android:background="?android:attr/listDivider" />
 
         <EditText
             android:id="@+id/edtFezes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
+            android:layout_height="94dp"
+            android:background="@null"
+            android:gravity="top"
+
             android:hint="@string/add_obs"
             android:inputType="textPersonName"
-
-            android:background="@null"
             android:textSize="15dp" />
 
     </LinearLayout>

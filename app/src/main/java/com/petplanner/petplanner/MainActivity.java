@@ -1,11 +1,16 @@
 package com.petplanner.petplanner;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,9 +21,12 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.io.InputStream;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
@@ -181,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                              TextView txtAtividade = findViewById(R.id.txtAtividade_status);
                              txtAtividade.setText(edtTipo.getText().toString());
                              TextView txtTempoAtv = findViewById(R.id.txtTempoAtv);
-                             txtTempoAtv.setText(edtTempo.getText().toString()+"");
+                             txtTempoAtv.setText(edtTempo.getText().toString()+"´");
                              Toast.makeText(MainActivity.this, "Atualizar BD | Arrumar espaçamento de digitação | Validar inputs ",Toast.LENGTH_SHORT).show();
                              bottomSheetDialogAtv.dismiss();
                          }
@@ -207,7 +215,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                          .inflate(
                                  R.layout.bottom_sheet_fezes,
                                  (LinearLayout)findViewById(R.id.bottomSheetFezes)
+
                          );
+
                  RadioGroup rdFezes = (RadioGroup) bottomSheetFezes.findViewById(R.id.rdFezes);
                  rdFezes.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                      public void onCheckedChanged(RadioGroup group, int checkedId)
@@ -255,8 +265,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                      }
                  });
                  bottomSheetDialogFezes.setContentView(bottomSheetFezes);
+                 Objects.requireNonNull(bottomSheetDialogFezes.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
                  bottomSheetDialogFezes.show();
+
+
+
              }
+
 
          });
         LinearLayout lnChoose = findViewById(R.id.lnChoose);
@@ -353,9 +368,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             Toast.makeText(this, "Banco de dados Não Disponível",Toast.LENGTH_SHORT).show();
         }
     }
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
-        carrega(3);
+        //carrega(3);
     }
     @Override
     public void onNothingSelected(AdapterView<?> arg0) {
