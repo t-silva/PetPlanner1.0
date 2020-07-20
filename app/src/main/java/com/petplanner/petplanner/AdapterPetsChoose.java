@@ -37,6 +37,7 @@ public class AdapterPetsChoose extends CursorAdapter {
                 new int[]{R.id.txtPetName, R.id.petPhoto},
                 0) {
         };
+
         lvPets.setAdapter(petsAdapter);
 
     }
