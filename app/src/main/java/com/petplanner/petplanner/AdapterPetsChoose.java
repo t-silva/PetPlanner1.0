@@ -6,9 +6,14 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.widget.ContentFrameLayout;
 
 public class AdapterPetsChoose extends CursorAdapter {
 
@@ -21,7 +26,7 @@ public class AdapterPetsChoose extends CursorAdapter {
         return LayoutInflater.from(context).inflate(R.layout.custom_bottom_list,parent,false);
     }
     @Override
-    public void bindView (View view, Context context, Cursor cursor){
+    public void bindView (View view, final Context context, Cursor cursor){
         //  RadioButton txtNome = (RadioButton) view.findViewById(R.id.radioButton1);
         ListView lvPets = (ListView) view.findViewById(R.id.lvPets);
         CursorAdapter petsAdapter = new SimpleCursorAdapter(
@@ -32,18 +37,11 @@ public class AdapterPetsChoose extends CursorAdapter {
                 new int[]{R.id.txtPetName, R.id.petPhoto},
                 0) {
         };
+
         lvPets.setAdapter(petsAdapter);
 
-        //     if(cursor.moveToFirst()) {
-        //RadioButton rdb = (RadioButton) view.findViewById(R.id.rdbPet);
-        //TextView name = (TextView) view.findViewById(R.id.txtPetNome);
-        //name.setText(cursor.getString(1));
-
-
-        //String txt = cursor.getString(cursor.getColumnIndexOrThrow("NOME"));
-        //Integer img = cursor.getInt((cursor.getColumnIndexOrThrow("IMGRESID")));
-//        txtNome.setText(txt);
-//        txtNome.setBackgroundResource(img);
     }
 
+
 }
+

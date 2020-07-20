@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">PetPlanner</string>
+    <string name="atividade">Atividade</string>
+    <string name="humorExc">Excelente</string>
+    <string name="humorHappy">Feliz</string>
+    <string name="humorOk">Ok</string>
+    <string name="humorBad">Ruim</string>
+    <string name="urina">Urina</string>
+    <string name="add_obs">Adicione uma observação...</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="ok">Ok</string>
+    <string name="uri_normal">Normal</string>
+    <string name="uri_nFez">Não Fez</string>
+    <string name="selecione">Selecione uma opção</string>
+    <string name="fezes_normal">Normal</string>
+    <string name="fezes_mole">Mole</string>
+    <string name="fezesNaoFez">Não fez</string>
+    <string name="fezes">Fezes</string>
+    <string name="atividade_fisica">Atividade Física</string>
+    <string name="adicione_uma_atividade">Adicione uma atividade</string>
+    <string name="fezes_tempo">Tempo</string>
+    <string name="digite_atividade">Campos Vazios</string>
+    <string name="humor">Humor</string>
+    <string name="fotos">Fotos</string>
+
 </resources>
