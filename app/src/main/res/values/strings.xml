@@ -22,5 +22,7 @@
     <string name="digite_atividade">Campos Vazios</string>
     <string name="humor">Humor</string>
     <string name="fotos">Fotos</string>
+    <string name="alimentacao">Alimentação</string>
+    <string name="water">Água</string>
 
 </resources>
