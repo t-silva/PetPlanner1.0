@@ -232,7 +232,7 @@
                                     android:id="@+id/txtHumor_status"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Excelente"
+
                                     android:textSize="11sp" />
                             </LinearLayout>
                         </LinearLayout>

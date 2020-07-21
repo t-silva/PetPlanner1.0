@@ -1,12 +1,9 @@
 package com.petplanner.petplanner;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
-import android.content.Intent;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,40 +17,57 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-
-import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
-
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-
-    SQLiteOpenHelper petplannerDB, petplannerDB2;
+    SQLiteOpenHelper petplannerDB;
     SQLiteDatabase bd;
-    Cursor cursor;
+    Cursor cursor, cursorH,cursorAtual,cursorU,cursorAtv,cursorFezes;
+    String today;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",java.util.Locale.getDefault());
+    Date date = new Date();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final int[] idPet = new int[1];
         setContentView(R.layout.activity_main);
         TextView txtData = findViewById(R.id.txtDate);
         Calendar calendar = Calendar.getInstance();
+        today = dateFormat.format(date);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH);
         String fMonth;
         if ( month < 10) {
-            fMonth = "0" + String.valueOf(month);
+            fMonth = "0" + month;
         }
         else {
             fMonth = String.valueOf(month);
         }
         String data = day + "/" + fMonth;
         txtData.setText(data);
-    }
-     @Override
-    protected void onStart() {
-        super.onStart();
+
+// Carregar ID sendo utilizado
+
+        petplannerDB = new PetplannerBD(getApplicationContext());
+        bd = petplannerDB.getReadableDatabase();
+        cursorAtual = bd.query(
+                "ATUAL",
+                new String[] {"_id","_idAtual"},
+                "_id = 1",
+                null,
+                null,
+                null,
+                null,
+                null);
+        if(cursorAtual.moveToFirst()) {
+            idPet[0] = cursorAtual.getInt(1);
+        }
+        carrega(idPet[0]);
+// FIM
         Button buttonHumor = findViewById(R.id.btnHumor);
         buttonHumor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,24 +86,43 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     {
                         Button btnHumor = findViewById(R.id.btnHumor);
                         TextView txtHumor = findViewById(R.id.txtHumor_status);
+                        String status = "Definir";
                         switch (checkedId){
                             case R.id.rdbExc:
                                 btnHumor.setBackgroundResource(R.drawable.humor_exc);
                                 txtHumor.setText(getString(R.string.humorExc));
+                                status = getString(R.string.humorExc);
                                 break;
                             case R.id.rdbHappy:
                                 btnHumor.setBackgroundResource(R.drawable.humor_happy);
                                 txtHumor.setText(getString(R.string.humorHappy));
+                                status = getString(R.string.humorHappy);
                                 break;
                             case R.id.rdbOk:
                                 btnHumor.setBackgroundResource(R.drawable.humor_ok);
                                 txtHumor.setText(getString(R.string.humorOk));
+                                status = getString(R.string.humorOk);
                                 break;
                             case R.id.rdbBad:
                                 btnHumor.setBackgroundResource(R.drawable.humor_bad);
                                 txtHumor.setText(getString(R.string.humorBad));
+                                status = getString(R.string.humorBad);
                         }
-                        Toast.makeText(MainActivity.this, "Atualizar BD",Toast.LENGTH_SHORT).show();
+
+                        bd = petplannerDB.getWritableDatabase();
+                        ContentValues cvH = new ContentValues();
+                        cvH.put("_idPet", idPet[0]);
+                        cvH.put("TIMESTAMP", today);
+                        cvH.put("STATUS", status);
+                       if (cursorH.moveToFirst()){
+                           bd.update("HUMOR",cvH,"_idPET = ? AND TIMESTAMP = ?",new String[]{String.valueOf(idPet[0]), today });
+                       }
+                       else{
+                           Toast.makeText(MainActivity.this, "Primeiro Registro",Toast.LENGTH_SHORT).show();
+                           bd.insert("HUMOR", null,cvH);
+                       }
+                        carrega(idPet[0]); //Preciso carregar de novo para atualizar o cursorH
+
                         bottomSheetDialog.dismiss();
                     }
                 });
@@ -112,10 +145,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                 (LinearLayout)findViewById(R.id.bottomSheetUri)
                         );
                 RadioGroup rdUri = (RadioGroup) bottomSheetUri.findViewById(R.id.rdUri);
+
                 rdUri.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     public void onCheckedChanged(RadioGroup group, int checkedId)
                     {
-                      checkUri = checkedId;
+                        checkUri = checkedId;
                     }
                 });
                 if (txtUri.getText() == getString(R.string.uri_normal) ){
@@ -135,145 +169,181 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 txtOk.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        final ContentValues cvU = new ContentValues();
+                        cvU.put("_idPet", idPet[0]);
+                        cvU.put("TIMESTAMP", today);
                         switch (checkUri){
                             case R.id.rdbUriNormal:
                                 txtUri.setText(getString(R.string.uri_normal));
                                 bottomSheetDialogUri.dismiss();
-                                Toast.makeText(MainActivity.this, "Atualizar BD",Toast.LENGTH_SHORT).show();
+                                cvU.put("FEZ", 1);
+                                //Toast.makeText(MainActivity.this, "Atualizar BD",Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.rdbUriNaoFez:
                                 txtUri.setText(getString(R.string.uri_nFez));
+                                cvU.put("FEZ", 0);
                                 bottomSheetDialogUri.dismiss();
+                                //Toast.makeText(MainActivity.this, "Atualizar BD",Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                Toast.makeText(MainActivity.this, R.string.selecione,Toast.LENGTH_SHORT).show();
+                        }
+                        if (cursorU.moveToFirst()){
+                            bd.update("URINA",cvU,"_idPET = ? AND TIMESTAMP = ?",new String[]{String.valueOf(idPet[0]), today });
+                        }
+                        else{
+                            Toast.makeText(MainActivity.this, "Primeiro Registro",Toast.LENGTH_SHORT).show();
+                            bd.insert("URINA", null,cvU);
+                        }
+                    }
+                });
+                bottomSheetDialogUri.setContentView(bottomSheetUri);
+                carrega(idPet[0]);
+                bottomSheetDialogUri.show();
+            }
+
+        });
+        TextView imgAtv = findViewById(R.id.txtTempoAtv);
+        imgAtv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final BottomSheetDialog bottomSheetDialogAtv = new BottomSheetDialog(
+                        MainActivity.this,R.style.BottonSheetDialogTheme
+                );
+                final View bottomSheetAtv = LayoutInflater.from(getApplicationContext())
+                        .inflate(
+                                R.layout.bottom_sheet_atividade,
+                                (LinearLayout)findViewById(R.id.bottomSheetAtividade)
+                        );
+                TextView txtCancel = bottomSheetAtv.findViewById(R.id.txtCancela);
+                txtCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        bottomSheetDialogAtv.dismiss();
+                    }
+                });
+                TextView txtOk = bottomSheetAtv.findViewById(R.id.txtOk);
+                txtOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final ContentValues cvAtv = new ContentValues();
+                        cvAtv.put("_idPet", idPet[0]);
+                        cvAtv.put("TIMESTAMP", today);
+                        EditText edtTipo = bottomSheetAtv.findViewById(R.id.edtAtvTipo);
+                        EditText edtTempo = bottomSheetAtv.findViewById(R.id.edtAtvTempo);
+                        if (edtTempo.getText().toString().length() <1 || edtTipo.getText().toString().length() <1){
+                            Toast.makeText(MainActivity.this, R.string.digite_atividade,Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            cvAtv.put("TIPO", edtTipo.getText().toString());
+                            cvAtv.put("TEMPO", edtTempo.getText().toString());
+                            TextView txtAtividade = findViewById(R.id.txtAtividade_status);
+                            txtAtividade.setText(edtTipo.getText().toString());
+                            TextView txtTempoAtv = findViewById(R.id.txtTempoAtv);
+                            String tempo = edtTempo.getText().toString()+"´";
+                            txtTempoAtv.setText(tempo);
+                            if (cursorAtv.moveToFirst()){
+                                bd.update("ATIVIDADE",cvAtv,"_idPET = ? AND TIMESTAMP = ?",new String[]{String.valueOf(idPet[0]), today });
+                            }
+                            else{
+                                Toast.makeText(MainActivity.this, "Primeiro Registro",Toast.LENGTH_SHORT).show();
+                                bd.insert("ATIVIDADE", null,cvAtv);
+                            }
+
+                            Toast.makeText(MainActivity.this, "Atualizar BD | Arrumar espaçamento de digitação | Validar inputs ",Toast.LENGTH_SHORT).show();
+                            bottomSheetDialogAtv.dismiss();
+                        }
+
+
+                    }
+                });
+                bottomSheetDialogAtv.setContentView(bottomSheetAtv);
+                bottomSheetDialogAtv.show();
+            }
+
+        });
+        ImageView imgFezes = findViewById(R.id.imgFezes);
+        imgFezes.setOnClickListener(new View.OnClickListener() {
+            TextView txtFezes = findViewById(R.id.txtFezes_status);
+            int checkFezes;
+            @Override
+            public void onClick(View view) {
+                final BottomSheetDialog bottomSheetDialogFezes = new BottomSheetDialog(
+                        MainActivity.this,R.style.BottonSheetDialogTheme
+                );
+                final View bottomSheetFezes = LayoutInflater.from(getApplicationContext())
+                        .inflate(
+                                R.layout.bottom_sheet_fezes,
+                                (LinearLayout)findViewById(R.id.bottomSheetFezes)
+                        );
+
+                RadioGroup rdFezes = (RadioGroup) bottomSheetFezes.findViewById(R.id.rdFezes);
+                rdFezes.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    public void onCheckedChanged(RadioGroup group, int checkedId)
+                    {
+                        checkFezes = checkedId;
+                    }
+                });
+                if (txtFezes.getText() == getString(R.string.fezes_normal) ){
+                    rdFezes.check(R.id.rdbFezesNormal);
+                }
+                else if (txtFezes.getText() == getString(R.string.fezes_mole) ){
+                    rdFezes.check(R.id.rdbFezesMole);
+                }
+                TextView txtCancel = bottomSheetFezes.findViewById(R.id.txtCancela);
+                txtCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        bottomSheetDialogFezes.dismiss();
+                    }
+                });
+                TextView txtOk = bottomSheetFezes.findViewById(R.id.txtOk);
+                txtOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        EditText edtObs = bottomSheetFezes.findViewById(R.id.edtFezes);
+                        final ContentValues cvF = new ContentValues();
+                        cvF.put("_idPet", idPet[0]);
+                        cvF.put("TIMESTAMP", today);
+                        cvF.put("OBS", edtObs.getText().toString());
+                        switch (checkFezes){
+                            case R.id.rdbFezesNormal:
+                                txtFezes.setText(getString(R.string.fezes_normal));
+                                bottomSheetDialogFezes.dismiss();
+                                cvF.put("STATUS",R.string.fezes_normal);
+                                Toast.makeText(MainActivity.this, "Atualizar BD",Toast.LENGTH_SHORT).show();
+                                break;
+                            case R.id.rdbFezesMole:
+                                txtFezes.setText(getString(R.string.fezes_mole));
+                                cvF.put("STATUS",R.string.fezes_mole);
+                                bottomSheetDialogFezes.dismiss();
+                                Toast.makeText(MainActivity.this, "Atualizar BD",Toast.LENGTH_SHORT).show();
+                                break;
+                            case R.id.rdbFezesNaofez:
+                                txtFezes.setText(getString(R.string.fezesNaoFez));
+                                cvF.put("STATUS",R.string.fezesNaoFez);
+                                bottomSheetDialogFezes.dismiss();
                                 Toast.makeText(MainActivity.this, "Atualizar BD",Toast.LENGTH_SHORT).show();
                                 break;
                             default:
                                 Toast.makeText(MainActivity.this, R.string.selecione,Toast.LENGTH_SHORT).show();
                         }
 
+                        if (cursorFezes.moveToFirst()){
+                            bd.update("FEZES",cvF,"_idPET = ? AND TIMESTAMP = ?",new String[]{String.valueOf(idPet[0]), today });
+                        }
+                        else{
+                            Toast.makeText(MainActivity.this, "Primeiro Registro",Toast.LENGTH_SHORT).show();
+                            bd.insert("FEZES", null,cvF);
+                        }
+
                     }
                 });
-                bottomSheetDialogUri.setContentView(bottomSheetUri);
-                bottomSheetDialogUri.show();
+                bottomSheetDialogFezes.setContentView(bottomSheetFezes);
+                Objects.requireNonNull(bottomSheetDialogFezes.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                bottomSheetDialogFezes.show();
             }
-
         });
-         TextView imgAtv = findViewById(R.id.txtTempoAtv);
-         imgAtv.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
-                 final BottomSheetDialog bottomSheetDialogAtv = new BottomSheetDialog(
-                         MainActivity.this,R.style.BottonSheetDialogTheme
-                 );
-                 final View bottomSheetAtv = LayoutInflater.from(getApplicationContext())
-                         .inflate(
-                                 R.layout.bottom_sheet_atividade,
-                                 (LinearLayout)findViewById(R.id.bottomSheetAtividade)
-                         );
-                 TextView txtCancel = bottomSheetAtv.findViewById(R.id.txtCancela);
-                 txtCancel.setOnClickListener(new View.OnClickListener() {
-                     @Override
-                     public void onClick(View view) {
-                         bottomSheetDialogAtv.dismiss();
-                     }
-                 });
-                 TextView txtOk = bottomSheetAtv.findViewById(R.id.txtOk);
-                 txtOk.setOnClickListener(new View.OnClickListener() {
-                     @Override
-                     public void onClick(View view) {
-                         EditText edtTipo = bottomSheetAtv.findViewById(R.id.edtAtvTipo);
-                         EditText edtTempo = bottomSheetAtv.findViewById(R.id.edtAtvTempo);
-                         if (edtTempo.getText().toString().length() <1 || edtTipo.getText().toString().length() <1){
-                             Toast.makeText(MainActivity.this, R.string.digite_atividade,Toast.LENGTH_SHORT).show();
-                         }
-                         else {
-                             TextView txtAtividade = findViewById(R.id.txtAtividade_status);
-                             txtAtividade.setText(edtTipo.getText().toString());
-                             TextView txtTempoAtv = findViewById(R.id.txtTempoAtv);
-                             txtTempoAtv.setText(edtTempo.getText().toString()+"´");
-                             Toast.makeText(MainActivity.this, "Atualizar BD | Arrumar espaçamento de digitação | Validar inputs ",Toast.LENGTH_SHORT).show();
-                             bottomSheetDialogAtv.dismiss();
-                         }
-
-
-                     }
-                 });
-                 bottomSheetDialogAtv.setContentView(bottomSheetAtv);
-                 bottomSheetDialogAtv.show();
-             }
-
-         });
-         ImageView imgFezes = findViewById(R.id.imgFezes);
-         imgFezes.setOnClickListener(new View.OnClickListener() {
-             TextView txtFezes = findViewById(R.id.txtFezes_status);
-             int checkFezes;
-             @Override
-             public void onClick(View view) {
-                 final BottomSheetDialog bottomSheetDialogFezes = new BottomSheetDialog(
-                         MainActivity.this,R.style.BottonSheetDialogTheme
-                 );
-                 View bottomSheetFezes = LayoutInflater.from(getApplicationContext())
-                         .inflate(
-                                 R.layout.bottom_sheet_fezes,
-                                 (LinearLayout)findViewById(R.id.bottomSheetFezes)
-
-                         );
-
-                 RadioGroup rdFezes = (RadioGroup) bottomSheetFezes.findViewById(R.id.rdFezes);
-                 rdFezes.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                     public void onCheckedChanged(RadioGroup group, int checkedId)
-                     {
-                         checkFezes = checkedId;
-                     }
-                 });
-                 if (txtFezes.getText() == getString(R.string.fezes_normal) ){
-                     rdFezes.check(R.id.rdbFezesNormal);
-                 }
-                 else if (txtFezes.getText() == getString(R.string.fezes_mole) ){
-                     rdFezes.check(R.id.rdbFezesMole);
-                 }
-                 TextView txtCancel = bottomSheetFezes.findViewById(R.id.txtCancela);
-                 txtCancel.setOnClickListener(new View.OnClickListener() {
-                     @Override
-                     public void onClick(View view) {
-                         bottomSheetDialogFezes.dismiss();
-                     }
-                 });
-                 TextView txtOk = bottomSheetFezes.findViewById(R.id.txtOk);
-                 txtOk.setOnClickListener(new View.OnClickListener() {
-                     @Override
-                     public void onClick(View view) {
-                         switch (checkFezes){
-                             case R.id.rdbFezesNormal:
-                                 txtFezes.setText(getString(R.string.fezes_normal));
-                                 bottomSheetDialogFezes.dismiss();
-                                 Toast.makeText(MainActivity.this, "Atualizar BD",Toast.LENGTH_SHORT).show();
-                                 break;
-                             case R.id.rdbFezesMole:
-                                 txtFezes.setText(getString(R.string.fezes_mole));
-                                 bottomSheetDialogFezes.dismiss();
-                                 Toast.makeText(MainActivity.this, "Atualizar BD",Toast.LENGTH_SHORT).show();
-                                 break;
-                             case R.id.rdbFezesNaofez:
-                                 txtFezes.setText(getString(R.string.fezesNaoFez));
-                                 bottomSheetDialogFezes.dismiss();
-                                 Toast.makeText(MainActivity.this, "Atualizar BD",Toast.LENGTH_SHORT).show();
-                                 break;
-                             default:
-                                 Toast.makeText(MainActivity.this, R.string.selecione,Toast.LENGTH_SHORT).show();
-                         }
-
-                     }
-                 });
-                 bottomSheetDialogFezes.setContentView(bottomSheetFezes);
-                 Objects.requireNonNull(bottomSheetDialogFezes.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                 bottomSheetDialogFezes.show();
-
-
-
-             }
-
-
-         });
         LinearLayout lnChoose = findViewById(R.id.lnChoose);
         lnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -286,9 +356,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                 R.layout.custom_bottom_list,
                                 (LinearLayout)findViewById(R.id.bottomSheetPets)
                         );
-                petplannerDB2 = new PetplannerBD(getApplicationContext());
+                petplannerDB = new PetplannerBD(getApplicationContext());
                 bd = petplannerDB.getReadableDatabase();
-                cursor = cursor = bd.query(
+                cursor =  bd.query(
                         "PETS",
                         new String[] {"_id","NOME","IMGRESID"},
                         null,
@@ -301,8 +371,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 lvPets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        int idPet = (int) id;
-                        carrega(idPet);
+                        idPet[0] = (int) id;
+                        bd = petplannerDB.getWritableDatabase();
+                        ContentValues cvAtual = new ContentValues();
+                        cvAtual.put("_idAtual", idPet[0]);
+                        bd.update("ATUAL",cvAtual,"_id = 1",null);
+                        carrega((int) id);
+                        //Toast.makeText(MainActivity.this, "Carregar id" + idPet[0],Toast.LENGTH_SHORT).show();
                         bottomSheetChoose.dismiss();
                     }
                 });
@@ -312,27 +387,36 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 bottomSheetChoose.show();
             }
         });
-        carrega(1);
+    }
+     @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     public void carrega(int i) {
-
+        TextView txtHumor = findViewById(R.id.txtHumor_status);
+        Button BtnHum = findViewById(R.id.btnHumor);
+        TextView txtUrina = findViewById(R.id.txtUrina_status);
+        TextView txtAtividade = findViewById(R.id.txtAtividade_status);
+        TextView txtFezes = findViewById(R.id.txtFezes_status);
         try{
+
             petplannerDB = new PetplannerBD(getApplicationContext());
             bd = petplannerDB.getReadableDatabase();
+
+        //Gerando cursor para perfil
             cursor = bd.query(
                     "PETS",
-                    new String[] {"_id","NOME","RACA","IDADE", "SEXO", "HUMOR","URINA","ATV","FEZES","IMGRESID"},
+                    new String[] {"_id","NOME","RACA","IDADE", "SEXO","IMGRESID"},
                     "_id = ?",
                     new String[]{Integer.toString(i)},
                     null,
                     null,
                     null,
                     null);
-
-            if (cursor.moveToFirst()) {
+            if (cursor.moveToFirst() ) {
                 de.hdodenhof.circleimageview.CircleImageView imgPerfil = findViewById(R.id.fotoCapa);
-                imgPerfil.setImageResource(cursor.getInt(9));
+                imgPerfil.setImageResource(cursor.getInt(5));
                 TextView txtNome = findViewById(R.id.txtNome);
                 txtNome.setText(cursor.getString(1));
                 TextView txtRaca = findViewById(R.id.txtRaca);
@@ -341,34 +425,105 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 txtIdade.setText(cursor.getString(3));
                 TextView txtSexo = findViewById(R.id.txtSexo);
                 txtSexo.setText(cursor.getString(4));
-                TextView txtHumor = findViewById(R.id.txtHumor_status);
-                txtHumor.setText(cursor.getString(5));
-                Button BtnHum = findViewById(R.id.btnHumor);
-                if ( cursor.getString(5).equals("Excelente")) {
-                    BtnHum.setBackgroundResource(R.drawable.humor_exc);
-                }
-                if (cursor.getString(5).equals("Normal")) {
-                    BtnHum.setBackgroundResource(R.drawable.humor_ok);
-                }
-                if (cursor.getString(5).equals("Bravo")) {
-                    BtnHum.setBackgroundResource(R.drawable.humor_bad);
-                }
-                if (cursor.getString(5).equals("Bom")) {
-                    BtnHum.setBackgroundResource(R.drawable.humor_happy);
-                }
 
-                TextView txtUrina = findViewById(R.id.txtUrina_status);
-                txtUrina.setText(cursor.getString(6));
-                TextView txtAtividade = findViewById(R.id.txtAtividade_status);
-                txtAtividade.setText(cursor.getString(7));
-                TextView txtFezes = findViewById(R.id.txtFezes_status);
-                txtFezes.setText(cursor.getString(8));
+              /*
+
+                txtFezes.setText(cursor.getString(8));*/
             }
+          //  petplannerDBH = new PetplannerBD(getApplicationContext());
+           // bdH = petplannerDB.getReadableDatabase();
+
+        //Gerando cursor para humor
+            cursorH = bd.query(
+                    "HUMOR",
+                    new String[] {"_idPET","TIMESTAMP","STATUS"},
+                    "_idPET = ? AND TIMESTAMP = ?",
+                    new String[]{Integer.toString(i), today},
+                    null,
+                    null,
+                    null,
+                    null);
+                if(cursorH.moveToFirst()){
+                    txtHumor.setText(cursorH.getString(2));
+               //     Toast.makeText(MainActivity.this, cursorH.getString(2), Toast.LENGTH_SHORT).show();
+                    if ( cursorH.getString(2).equals(getString(R.string.humorExc))) {
+                        BtnHum.setBackgroundResource(R.drawable.humor_exc);
+                    }
+                    else if (cursorH.getString(2).equals(getString(R.string.humorOk))) {
+                        BtnHum.setBackgroundResource(R.drawable.humor_ok);
+                    }
+                    else if (cursorH.getString(2).equals(getString(R.string.humorBad))) {
+                        BtnHum.setBackgroundResource(R.drawable.humor_bad);
+                    }
+                    else if (cursorH.getString(2).equals(getString(R.string.humorHappy))) {
+                        BtnHum.setBackgroundResource(R.drawable.humor_happy);
+                    }
+                }
+                else {
+                    txtHumor.setText("");
+                    BtnHum.setBackgroundResource(R.drawable.add_custom);
+                }
+        //Gerando cursor para perfil
+            cursorU = bd.query(
+                    "URINA",
+                    new String[] {"_idPET","TIMESTAMP","FEZ","OBS"},
+                    "_idPET = ? AND TIMESTAMP = ?",
+                    new String[]{Integer.toString(i), today},
+                    null,
+                    null,
+                    null,
+                    null);
+            if(cursorU.moveToFirst()){
+                if (cursorU.getInt(2) == 1)
+                    txtUrina.setText(getString(R.string.uri_normal));
+                else txtUrina.setText(getString(R.string.uri_nFez));
+            }
+            else {
+                txtUrina.setText(" - ");
+            }
+            TextView txtTempoAtv = findViewById(R.id.txtTempoAtv);
+
+        //Gerando cursor para perfil
+            cursorAtv = bd.query(
+                    "ATIVIDADE",
+                    new String[] {"_idPET","TIMESTAMP","TIPO","TEMPO"},
+                    "_idPET = ? AND TIMESTAMP = ?",
+                    new String[]{Integer.toString(i), today},
+                    null,
+                    null,
+                    null,
+                    null);
+            if(cursorAtv.moveToFirst()){
+                txtAtividade.setText(cursorAtv.getString(2));
+                String tempo = cursorAtv.getString(3)+"'";
+                txtTempoAtv.setText(tempo);
+            }
+            else {
+                txtAtividade.setText(" - ");
+                txtTempoAtv.setText("");
+            }
+
+        //Gerando cursor para FEZES
+            cursorFezes = bd.query(
+                    "FEZES",
+                    new String[] {"_idPET","TIMESTAMP","STATUS","OBS"},
+                    "_idPET = ? AND TIMESTAMP = ?",
+                    new String[]{Integer.toString(i), today},
+                    null,
+                    null,
+                    null,
+                    null);
+            if(cursorFezes.moveToFirst()){
+                txtFezes.setText(getString(cursorFezes.getInt(2)));
+            }
+            else {
+                txtFezes.setText(" - ");
+            }
+
         } catch (SecurityException e){
             Toast.makeText(this, "Banco de dados Não Disponível",Toast.LENGTH_SHORT).show();
         }
     }
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
         //carrega(3);
