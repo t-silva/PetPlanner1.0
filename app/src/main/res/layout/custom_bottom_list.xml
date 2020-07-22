@@ -7,24 +7,18 @@
     android:layout_height="wrap_content"
     android:background="#ffffff"
     android:orientation="vertical"
-    android:paddingStart="41dp"
+    android:gravity="center"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    tools:context=".BottomSheetPets">
+    >
 
     <ListView
         android:id="@+id/lvPets"
-        android:layout_width="326dp"
+        android:layout_marginTop="29dp"
+        android:layout_width="290dp"
         android:layout_height="wrap_content"
         android:background="#ffffff">
 
     </ListView>
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Button" />
 
 </LinearLayout>
