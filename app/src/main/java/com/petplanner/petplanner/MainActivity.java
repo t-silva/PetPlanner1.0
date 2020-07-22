@@ -1,6 +1,7 @@
 package com.petplanner.petplanner;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -68,6 +69,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         carrega(idPet[0]);
 // FIM
+        TextView historico = findViewById(R.id.textHistorico);
+        historico.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(MainActivity.this, intentteste.class);
+                intent.putExtra(intentteste.EXTRA_idPET, (int) idPet[0]);
+                startActivity(intent);
+            }
+        });
         Button buttonHumor = findViewById(R.id.btnHumor);
         buttonHumor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,11 +121,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                         bd = petplannerDB.getWritableDatabase();
                         ContentValues cvH = new ContentValues();
-                        cvH.put("_idPet", idPet[0]);
+                        cvH.put("_id", idPet[0]);
                         cvH.put("TIMESTAMP", today);
                         cvH.put("STATUS", status);
                        if (cursorH.moveToFirst()){
-                           bd.update("HUMOR",cvH,"_idPET = ? AND TIMESTAMP = ?",new String[]{String.valueOf(idPet[0]), today });
+                           bd.update("HUMOR",cvH,"_id = ? AND TIMESTAMP = ?",new String[]{String.valueOf(idPet[0]), today });
                        }
                        else{
                            Toast.makeText(MainActivity.this, "Primeiro Registro",Toast.LENGTH_SHORT).show();
@@ -425,9 +435,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 txtIdade.setText(cursor.getString(3));
                 TextView txtSexo = findViewById(R.id.txtSexo);
                 txtSexo.setText(cursor.getString(4));
-
               /*
-
                 txtFezes.setText(cursor.getString(8));*/
             }
           //  petplannerDBH = new PetplannerBD(getApplicationContext());
@@ -436,8 +444,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //Gerando cursor para humor
             cursorH = bd.query(
                     "HUMOR",
-                    new String[] {"_idPET","TIMESTAMP","STATUS"},
-                    "_idPET = ? AND TIMESTAMP = ?",
+                    new String[] {"_id","TIMESTAMP","STATUS"},
+                    "_id = ? AND TIMESTAMP = ?",
                     new String[]{Integer.toString(i), today},
                     null,
                     null,

@@ -33,10 +33,10 @@ public class PetplannerBD extends SQLiteOpenHelper {
                 ")";
         db.execSQL(sqlPet);
         String sqlHumor = "CREATE TABLE HUMOR (" +
-                "_idPET INTEGER , " +
+                "_id INTEGER , " +
                 "TIMESTAMP INTEGER, " +
                 "STATUS STRING, " +
-                "FOREIGN KEY (_idPET) REFERENCES PETS(_id)" +
+                "FOREIGN KEY (_id) REFERENCES PETS(_id)" +
                 ")";
         db.execSQL(sqlHumor);
         String sqlFezes = "CREATE TABLE FEZES (" +

@@ -24,5 +24,7 @@
     <string name="fotos">Fotos</string>
     <string name="alimentacao">Alimentação</string>
     <string name="water">Água</string>
+    <string name="tipo">Tipo</string>
+    <string name="passeio">Passeio</string>
 
 </resources>
