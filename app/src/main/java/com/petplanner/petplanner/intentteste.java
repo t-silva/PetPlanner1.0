@@ -56,7 +56,7 @@ public class intentteste extends AppCompatActivity {
                     "_id = ?",
                     new String[]{Integer.toString(idPet)},
                     null,
-                    null,
+                    null,   
                     null,
                     null);
             if(cursorH.moveToFirst()) {
