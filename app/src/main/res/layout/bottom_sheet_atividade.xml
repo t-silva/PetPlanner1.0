@@ -78,29 +78,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="10dp"
                     android:letterSpacing="-0.02"
-                    android:layout_marginEnd="122dp"
                     android:lineSpacingExtra="5sp"
-                    android:text="@string/fezes_normal"
+                    android:layout_marginEnd="228dp"
+                    android:text="@string/tipo"
                     android:textColor="#000000"
                     android:textSize="15sp" />
-
                 <EditText
                     android:id="@+id/edtAtvTipo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:ems="10"
-                    android:hint="@string/adicione_uma_atividade"
+                    android:hint="@string/passeio"
                     android:layout_gravity="center_vertical"
                     android:inputType="textPersonName"
                     android:textSize="15dp" />
-
             </LinearLayout>
 
             <View
-                android:layout_width="match_parent"
+                android:layout_width="313dp"
                 android:layout_height="1dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
@@ -115,7 +111,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="10dp"
                     android:letterSpacing="-0.02"
                     android:lineSpacingExtra="5sp"
                     android:layout_marginEnd="197dp"
@@ -124,14 +119,15 @@
                     android:textSize="15sp" />
 
                 <EditText
+
                     android:id="@+id/edtAtvTempo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:ems="10"
+
                     android:hint="0 minutos"
                     android:layout_gravity="center_vertical"
-                    android:inputType="textPersonName"
+                    android:inputType="number"
                     android:textSize="15dp" />
             </LinearLayout>
 

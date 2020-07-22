@@ -2,16 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
     android:background="#FFFFFF"
     tools:context=".MainActivity">
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,13 +17,12 @@
 
         <ScrollView
             android:id="@+id/mainScrollView"
-            android:layout_marginStart="5dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:background="#FFFFFF"
@@ -65,7 +62,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:padding="0dp"
-                        app:srcCompat="@drawable/ic_baseline_arrow_drop_down_24"
+                        android:background="@drawable/ic_baseline_arrow_drop_down_24"
                         tools:srcCompat="@drawable/ic_baseline_arrow_drop_down_24" />
 
                 </LinearLayout>
@@ -142,7 +139,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textView4"
+                        android:id="@+id/textHistorico"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="3dp"
@@ -173,32 +170,31 @@
 " />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:paddingEnd="0dp"
+                    android:layout_marginEnd="18dp"
                     android:layout_marginStart="5dp"
-                    android:layout_gravity="center"
-
                     android:background="@drawable/activity_bcg"
                     android:orientation="horizontal">
-
                     <TextView
                         android:id="@+id/txtDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="72dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="center|center_horizontal|center_vertical"
                         android:padding="0dp"
                         android:rotation="270"
                         android:text="07/07"
                         android:textAlignment="center"
                         android:textColor="#000000"
-                        android:textSize="28sp"
+                        android:textSize="22sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
-                        android:layout_width="143dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                       >
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -207,9 +203,10 @@
 
                             <Button
                                 android:id="@+id/btnHumor"
-                                android:layout_width="79dp"
+                                android:layout_width="52dp"
                                 android:layout_height="47dp"
-                                android:layout_weight="1" />
+                                android:background="@drawable/add_custom"
+                                 />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -232,101 +229,10 @@
                                     android:id="@+id/txtHumor_status"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Excelente"
+
                                     android:textSize="11sp" />
                             </LinearLayout>
                         </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/txtTempoAtv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/group_4"
-                                android:gravity="center"
-                                android:letterSpacing="-0.02"
-                                android:lineSpacingExtra="5sp"
-                                android:textColor="#ffffff"
-                                android:textSize="17sp"
-                                tools:text="30’"
-
-                                />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginStart="3dp"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/txtAtividade"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Atividade Física"
-                                    android:textColor="#000000"
-                                    android:textSize="11sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/txtAtividade_status"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="TextView"
-                                    android:textSize="11sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <Button
-                                android:id="@+id/btnFood"
-                                android:layout_width="79dp"
-                                android:layout_height="47dp"
-                                android:background="@drawable/group_food"
-                                android:layout_weight="1" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginStart="3dp"
-                                android:layout_weight="2"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/txtFood"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/alimentacao"
-                                    android:textColor="#000000"
-                                    android:textSize="11sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/txtFood_status"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="200g"
-                                    android:textSize="11sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="138dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -335,10 +241,10 @@
 
                             <ImageView
                                 android:id="@+id/imgUrina"
-                                android:layout_width="79dp"
+                                android:layout_width="52dp"
                                 android:layout_height="47dp"
-                                android:layout_weight="1"
-                                app:srcCompat="@drawable/group_2"
+
+                                android:background="@drawable/group_2"
                                 tools:srcCompat="@drawable/group_2" />
 
                             <LinearLayout
@@ -370,13 +276,104 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/btnFood"
+                                android:layout_width="52dp"
+                                android:layout_height="47dp"
+                                android:background="@drawable/group_food"
+                                 />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="3dp"
+
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/txtFood"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/alimentacao"
+                                    android:textColor="#000000"
+                                    android:textSize="11sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/txtFood_status"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="200g"
+                                    android:textSize="11sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginStart="5dp"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txtTempoAtv"
+                                android:layout_width="52dp"
+                                android:layout_height="47dp"
+                                android:background="@drawable/group_4"
+                                android:gravity="center"
+                                android:letterSpacing="-0.02"
+                                android:lineSpacingExtra="5sp"
+                                android:textColor="#ffffff"
+                                android:textSize="17sp"
+                                tools:text="30’"
+
+                                />
+
+                            <LinearLayout
+                                android:layout_width="84dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/txtAtividade"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Atividade Física"
+                                    android:textColor="#000000"
+                                    android:textSize="11sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/txtAtividade_status"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="TextView"
+                                    android:textSize="11sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:orientation="horizontal">
 
                             <ImageView
                                 android:id="@+id/imgFezes"
-                                android:layout_width="103dp"
+                                android:layout_width="52dp"
                                 android:layout_height="47dp"
-                                android:layout_weight="1"
+
                                 app:srcCompat="@drawable/group8"
                                 tools:srcCompat="@drawable/group8" />
 
@@ -413,10 +410,10 @@
 
                             <Button
                                 android:id="@+id/btnWater"
-                                android:layout_width="79dp"
+                                android:layout_width="52dp"
                                 android:layout_height="47dp"
                                 android:background="@drawable/group_water"
-                                android:layout_weight="1" />
+                                 />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -725,7 +722,7 @@
                     android:textColor="#FFFFFF">
 
                     <LinearLayout
-                        android:layout_width="281dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="47dp"
                         android:layout_gravity="center_horizontal|fill_horizontal|center_vertical"
                         android:layout_marginStart="102dp"
@@ -796,7 +793,7 @@
                     android:textColor="#FFFFFF">
 
                     <LinearLayout
-                        android:layout_width="281dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="47dp"
                         android:layout_gravity="center_horizontal|fill_horizontal|center_vertical"
                         android:layout_marginStart="102dp"
