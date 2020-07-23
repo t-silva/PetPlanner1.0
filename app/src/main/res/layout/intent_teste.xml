@@ -121,14 +121,10 @@
 
 
                 </LinearLayout>
-                <ListView
-                    android:id="@+id/lvTeste"
-                    android:layout_marginTop="29dp"
-                    android:layout_width="290dp"
-                    android:layout_height="1000dp"
-                    android:background="#ffffff">
-
-                </ListView>
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/barchart"
+                    android:layout_width="match_parent"
+                    android:layout_height="600px" />
             </LinearLayout>
 
         </ScrollView>
