@@ -79,8 +79,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
              @Override
              public void onClick(View view){
                  // Toast.makeText(MainActivity.this,idPet[0],Toast.LENGTH_LONG).show();
-                 Intent intent = new Intent(MainActivity.this, intentteste.class);
-                 intent.putExtra(intentteste.EXTRA_idPET, (int) idPet[0]);
+                 Intent intent = new Intent(MainActivity.this, intHistorico.class);
+                 intent.putExtra(intHistorico.EXTRA_idPET, (int) idPet[0]);
                  startActivity(intent);
              }
          });

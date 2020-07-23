@@ -4,19 +4,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.widget.CursorAdapter;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -24,18 +17,17 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
-public class intentteste extends AppCompatActivity {
+public class intHistorico extends AppCompatActivity {
     public static final String EXTRA_idPET = "idPet";
     Cursor cursor,cursorH;
     SQLiteOpenHelper petplannerDB,petplannerDBH;
     SQLiteDatabase bd,bdH;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState){
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.intent_teste);
+        setContentView(R.layout.historico_activity);
 
        int idPet = (Integer) getIntent().getExtras().get(EXTRA_idPET);
         try{
