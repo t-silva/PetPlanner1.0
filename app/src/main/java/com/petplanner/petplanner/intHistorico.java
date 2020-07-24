@@ -33,9 +33,11 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Float.MAX_VALUE;
+
 public class intHistorico extends AppCompatActivity {
     public static final String EXTRA_idPET = "idPet";
-    Cursor cursor,cursorH;
+    Cursor cursor,cursorH,cursorAtv,cursorMax;
     SQLiteOpenHelper petplannerDB;
     SQLiteDatabase bd;
 
@@ -71,6 +73,29 @@ public class intHistorico extends AppCompatActivity {
                 TextView txtSexo = findViewById(R.id.txtSexo);
                 txtSexo.setText(cursor.getString(4));
             }
+            //RECUPERANDO MAIOR VALOR
+            cursorMax = bd.query(
+                    "ATIVIDADE",
+                    new String[]{"_idPet","TEMPO"},
+                    "_idPet = ? AND TEMPO=(SELECT MAX(TEMPO) FROM ATIVIDADE )",
+                    new String[]{Integer.toString(idPet)},
+                    null,
+                    null,
+                    null,
+                    null
+            );
+            float max;
+            if(cursorMax.moveToFirst()) {
+                max = cursorMax.getFloat(1);
+                Toast.makeText(this,"Max: "+ max,Toast.LENGTH_LONG).show();
+            }
+            else {
+                max =1;
+                Toast.makeText(this,"NAO ACHOU MAX",Toast.LENGTH_LONG).show();
+            }
+            // RECUPERANDO MAIOR VALOR
+
+
             // Gerando cursor para Humor
             cursorH = bd.query(
                     "HUMOR",
@@ -81,6 +106,7 @@ public class intHistorico extends AppCompatActivity {
                     null,   
                     null,
                     null);
+
         /*Experimentando Line Chart*/
 
             LineChart lineChart = (LineChart) findViewById(R.id.lnchart);
@@ -136,41 +162,40 @@ public class intHistorico extends AppCompatActivity {
                 /* Experimentando LineChart */
 
 
+            cursorAtv = bd.query(
+                    "ATIVIDADE",
+                    new String[]{"_idPet", "TIMESTAMP","TEMPO"},
+                    "_idPet = ?",
+                    new String[]{Integer.toString(idPet)},
+                    null,
+                    null,
+                    null,
+                    null);
                 BarChart barChart = (BarChart) findViewById(R.id.barchart);
                 ArrayList<String> labels2 = new ArrayList<>();
                 ArrayList<BarEntry> entries2 = new ArrayList<>();
 
-                if (cursorH.moveToFirst()) {
+                if (cursorAtv.moveToFirst()) {
                     float a = 0;
                     int b = 0;
-                    for (cursorH.moveToFirst(); !cursorH.isAfterLast(); cursorH.moveToNext()) {
-
-                        if (cursorH.getString(2).equals(getString(R.string.humorExc))) {
-                            a = 10f;
-                        } else if (cursorH.getString(2).equals(getString(R.string.humorHappy))) {
-                            a = 8f;
-                        } else if (cursorH.getString(2).equals(getString(R.string.humorOk))) {
-                            a = 6f;
-                        } else if (cursorH.getString(2).equals(getString(R.string.humorBad))) {
-                            a = 4f;
-                        }
-                        String date_nf = cursorH.getString(1);
+                    for (cursorAtv.moveToFirst(); !cursorAtv.isAfterLast(); cursorAtv.moveToNext()) {
+                        a = cursorAtv.getFloat(2);
+                        String date_nf = cursorAtv.getString(1);
                         String[] output = date_nf.split("-");
-
                         String date_f = output[1] + "/" + output[2];
                         labels2.add(date_f);
                         entries2.add(new BarEntry(a, b++));
                     }
                     BarDataSet bardataset = new BarDataSet(entries2, "Atividade Física");
                     barChart.getAxisLeft().setAxisMinValue(0f);
-                    barChart.getAxisLeft().setAxisMaxValue(14f);
+                    //barChart.getAxisLeft().setAxisMaxValue(14f);
                     BarData Bardata = new BarData(labels, bardataset);
                     barChart.setData(Bardata); // set the data and list of labels into chart
                     YAxis rightAxis = barChart.getAxisRight();
                     YAxis leftAxis = barChart.getAxisLeft();
                     XAxis xAxisBar = barChart.getXAxis();
                     rightAxis.setEnabled(false); // Remove legenda a direita
-                    leftAxis.setDrawLabels(false); //remove legendas da esquerda
+                    //leftAxis.setDrawLabels(false); //remove legendas da esquerda
                     leftAxis.setDrawAxisLine(false); //Remove linha da esquerda
                     leftAxis.enableGridDashedLine(1f,4f,10f);
                     xAxisBar.setDrawLabels(true);
