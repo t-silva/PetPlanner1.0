@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -97,6 +98,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                  (LinearLayout)findViewById(R.id.bottomSheetHumor)
                          );
                  RadioGroup rdHumor = (RadioGroup) bottomSheetView.findViewById(R.id.rdHumor);
+                 TextView txtHstatus = findViewById(R.id.txtHumor_status);
+                 if(txtHstatus.getText().equals(getString(R.string.humorExc))){
+                     rdHumor.check(R.id.rdbExc);
+                 }
+                 else if(txtHstatus.getText().equals(getString(R.string.humorHappy))){
+                     rdHumor.check(R.id.rdbHappy);
+                 }
+                 else if(txtHstatus.getText().equals(getString(R.string.humorOk))){
+                     rdHumor.check(R.id.rdbOk);
+                 }
+                 else if(txtHstatus.getText().equals(getString(R.string.humorBad))){
+                     rdHumor.check(R.id.rdbBad);
+                 }
                  rdHumor.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                      public void onCheckedChanged(RadioGroup group, int checkedId)
                      {
@@ -138,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                              bd.insert("HUMOR", null,cvH);
                          }
                          carrega(idPet[0]); //Preciso carregar de novo para atualizar o cursorH
-
                          bottomSheetDialog.dismiss();
                      }
                  });

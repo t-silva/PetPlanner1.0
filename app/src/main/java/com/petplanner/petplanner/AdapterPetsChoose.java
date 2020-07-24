@@ -27,7 +27,7 @@ public class AdapterPetsChoose extends CursorAdapter {
     }
     @Override
     public void bindView (View view, final Context context, Cursor cursor){
-        //  RadioButton txtNome = (RadioButton) view.findViewById(R.id.radioButton1);
+
         ListView lvPets = (ListView) view.findViewById(R.id.lvPets);
         CursorAdapter petsAdapter = new SimpleCursorAdapter(
                 context,
