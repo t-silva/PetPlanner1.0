@@ -124,20 +124,12 @@
                 <RelativeLayout
                     android:layout_width="fill_parent"
                     android:layout_height="200dp">
-                <com.github.mikephil.charting.charts.BarChart
-                    android:id="@+id/barchart"
+                <com.github.mikephil.charting.charts.CombinedChart
+                    android:id="@+id/combinedChar"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
                     />
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/lnchart"
-                    android:layout_width="fill_parent"
 
-
-                    android:layout_height="match_parent"
-                    android:scaleType="fitXY"
-                    android:layout_alignTop="@id/barchart"
-                    android:layout_alignBottom="@id/barchart"  />
                 </RelativeLayout>
             </LinearLayout>
 
