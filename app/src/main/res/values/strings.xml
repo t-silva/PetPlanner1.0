@@ -26,5 +26,22 @@
     <string name="water">Água</string>
     <string name="tipo">Tipo</string>
     <string name="passeio">Passeio</string>
+    <string name="vacinacao">Vacinação</string>
+    <string name="tratamentos">Tratamentos</string>
+    <string name="em_dia">Em dia</string>
+    <string name="vermifogo">Vermífogo</string>
+    <string name="anti_pulgas">Anti-pulgas</string>
+    <string name="consultas">Consultas</string>
+    <string name="ultima_em">última em</string>
+    <string name="exames">Exames</string>
+    <string name="alergias">Alergias</string>
+    <string name="nenhuma">nenhuma</string>
+    <string name="cirurgias">Cirurgias</string>
+    <string name="humor_e_atividade">Humor e Atividade</string>
+    <string name="alimentaco_peso">Alimentação e Peso</string>
+    <string name="uma_semana">1 semana</string>
+    <string name="one_month">1 mês</string>
+    <string name="half_year">6 meses</string>
+    <string name="a_year">1 ano</string>
 
 </resources>

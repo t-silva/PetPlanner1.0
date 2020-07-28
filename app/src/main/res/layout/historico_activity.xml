@@ -13,17 +13,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="15dp">
 
         <ScrollView
             android:id="@+id/mainScrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="45dp"
             android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:background="#FFFFFF"
                 android:orientation="vertical">
@@ -71,9 +74,10 @@
                     android:layout_height="2dp"
                     android:background="#ffffff" />
 
+
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="20dp"
                     android:layout_gravity="center_horizontal"
                     android:orientation="horizontal">
 
@@ -82,8 +86,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
-                        android:layout_marginRight="4dp"
-                         />
+                        android:layout_marginRight="4dp" />
 
                     <TextView
                         android:id="@+id/textView3"
@@ -98,8 +101,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
-                        android:layout_marginRight="4dp"
-                         />
+                        android:layout_marginRight="4dp" />
 
                     <TextView
                         android:id="@+id/textView7"
@@ -112,33 +114,608 @@
 
                     <TextView
                         android:id="@+id/txtSexo"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
                         android:layout_marginRight="4dp"
-                        android:layout_weight="0"
-                         />
-
-
+                        android:layout_weight="0" />
                 </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/activity_bcg"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="33dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/group_health" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/textVacina"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:letterSpacing="-0.02"
+                                        android:lineSpacingExtra="2.5sp"
+                                        android:text="@string/vacinacao"
+                                        android:textColor="#000000"
+                                        android:textSize="11sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/textVacinaStatus"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:letterSpacing="0.01"
+                                        android:lineSpacingExtra="0.5sp"
+                                        android:text="@string/em_dia"
+                                        android:textColor="#000000"
+                                        android:textSize="11sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="14dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:rotation="180"
+                                    android:src="@drawable/group_health" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/textTratamento"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:letterSpacing="-0.02"
+                                        android:lineSpacingExtra="2.5sp"
+                                        android:text="@string/tratamentos"
+                                        android:textColor="#000000"
+                                        android:textSize="11sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/textTratamentoStatus"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:letterSpacing="0.01"
+                                        android:lineSpacingExtra="0.5sp"
+                                        android:text="2"
+                                        android:textColor="#000000"
+                                        android:textSize="11sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="33dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:rotation="180"
+                                    android:src="@drawable/group_health" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/textVermif"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:letterSpacing="-0.02"
+                                        android:lineSpacingExtra="2.5sp"
+                                        android:text="@string/vermifogo"
+                                        android:textColor="#000000"
+                                        android:textSize="11sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/textVermifStatus"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:letterSpacing="0.01"
+                                        android:lineSpacingExtra="0.5sp"
+                                        android:text="@string/em_dia"
+                                        android:textColor="#000000"
+                                        android:textSize="11sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="14dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/group_health" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/textAntiPulgas"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:letterSpacing="-0.02"
+                                        android:lineSpacingExtra="2.5sp"
+                                        android:text="@string/anti_pulgas"
+                                        android:textColor="#000000"
+                                        android:textSize="11sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/textAntiPulgasStatus"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:letterSpacing="0.01"
+                                        android:lineSpacingExtra="0.5sp"
+                                        android:text="@string/em_dia"
+                                        android:textColor="#000000"
+                                        android:textSize="11sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="33dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:rotation="180"
+                                    android:src="@drawable/group_medical" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/textConsultas"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:letterSpacing="-0.02"
+                                        android:lineSpacingExtra="2.5sp"
+                                        android:text="@string/consultas"
+                                        android:textColor="#000000"
+                                        android:textSize="11sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/textConsultasStatus"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:letterSpacing="0.01"
+                                        android:lineSpacingExtra="0.5sp"
+                                        android:text="@string/ultima_em"
+                                        android:textColor="#000000"
+                                        android:textSize="11sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="14dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/group_medical" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/textExames"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:letterSpacing="-0.02"
+                                        android:lineSpacingExtra="2.5sp"
+                                        android:text="@string/exames"
+                                        android:textColor="#000000"
+                                        android:textSize="11sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/textExamesStatus"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:letterSpacing="0.01"
+                                        android:lineSpacingExtra="0.5sp"
+                                        android:text="2"
+                                        android:textColor="#000000"
+                                        android:textSize="11sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="33dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:rotation="180"
+                                    android:src="@drawable/group_medical" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/textAlergias"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:letterSpacing="-0.02"
+                                        android:lineSpacingExtra="2.5sp"
+                                        android:text="@string/alergias"
+                                        android:textColor="#000000"
+                                        android:textSize="11sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/textAlergiaStatus"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:letterSpacing="0.01"
+                                        android:lineSpacingExtra="0.5sp"
+                                        android:text="@string/nenhuma"
+                                        android:textColor="#000000"
+                                        android:textSize="11sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="14dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/group_medical" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/textCirurgias"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:letterSpacing="-0.02"
+                                        android:lineSpacingExtra="2.5sp"
+                                        android:text="@string/cirurgias"
+                                        android:textColor="#000000"
+                                        android:textSize="11sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/textCirurgiasStatus"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:letterSpacing="0.01"
+                                        android:lineSpacingExtra="0.5sp"
+                                        android:text="0"
+                                        android:textColor="#000000"
+                                        android:textSize="11sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </RelativeLayout>
+
                 <RelativeLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="200dp">
-                <com.github.mikephil.charting.charts.BarChart
-                    android:id="@+id/barchart"
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    />
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/lnchart"
-                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="35dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="-0.02"
+                            android:lineSpacingExtra="1.3sp"
+                            android:text="@string/humor_e_atividade"
+                            android:textColor="#000000"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:id="@+id/lnHumorAtv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="129dp"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="2dp"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginBottom="1dp"
+                                    app:srcCompat="@drawable/label_humorexc" />
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/label_humorhp" />
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/label_humorok" />
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginBottom="1dp"
+                                    app:srcCompat="@drawable/label_humorbad" />
+
+                            </LinearLayout>
+
+                            <com.github.mikephil.charting.charts.CombinedChart
+                                android:id="@+id/cmbcHumorAtv"
+                                android:layout_width="fill_parent"
+                                android:layout_height="150dp"
+
+                                android:layout_gravity="left"
+                                 />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingStart="26dp"
+                            android:paddingEnd="40dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:letterSpacing="0.01"
+                                android:lineSpacingExtra="0.5sp"
+                                android:text="@string/uma_semana"
+                                android:textColor="#007aff"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:letterSpacing="0.01"
+                                android:lineSpacingExtra="0.5sp"
+                                android:text="@string/one_month"
+                                android:textColor="#8e8e93"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:letterSpacing="0.01"
+                                android:lineSpacingExtra="0.5sp"
+                                android:text="@string/half_year"
+                                android:textColor="#8e8e93"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:letterSpacing="0.01"
+                                android:lineSpacingExtra="0.5sp"
+                                android:text="@string/a_year"
+                                android:textColor="#8e8e93"
+                                android:textSize="11sp" />
+
+                        </LinearLayout>
+                    </LinearLayout>
 
 
-                    android:layout_height="match_parent"
-                    android:scaleType="fitXY"
-                    android:layout_alignTop="@id/barchart"
-                    android:layout_alignBottom="@id/barchart"  />
                 </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="35dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="-0.02"
+                            android:lineSpacingExtra="1.3sp"
+                            android:text="@string/alimentaco_peso"
+                            android:textColor="#000000"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:id="@+id/lnAlimPeso"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <com.github.mikephil.charting.charts.CombinedChart
+                                android:id="@+id/cmbcAtvPeso"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignTop="@id/lnHumorAtv"
+                                android:layout_alignBottom="@id/lnHumorAtv"
+                                android:layout_gravity="left"
+                                android:scaleType="fitXY" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingStart="26dp"
+                            android:paddingEnd="40dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:letterSpacing="0.01"
+                                android:lineSpacingExtra="0.5sp"
+                                android:text="@string/uma_semana"
+                                android:textColor="#007aff"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:letterSpacing="0.01"
+                                android:lineSpacingExtra="0.5sp"
+                                android:text="@string/one_month"
+                                android:textColor="#8e8e93"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:letterSpacing="0.01"
+                                android:lineSpacingExtra="0.5sp"
+                                android:text="@string/half_year"
+                                android:textColor="#8e8e93"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:letterSpacing="0.01"
+                                android:lineSpacingExtra="0.5sp"
+                                android:text="@string/a_year"
+                                android:textColor="#8e8e93"
+                                android:textSize="11sp" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
             </LinearLayout>
 
         </ScrollView>

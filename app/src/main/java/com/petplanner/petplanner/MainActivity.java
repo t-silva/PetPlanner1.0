@@ -26,39 +26,41 @@ import java.util.Date;
 import java.util.Objects;
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     SQLiteOpenHelper petplannerDB;
-    SQLiteDatabase bd;
+    SQLiteDatabase bd,bdw,bdw2;
     Cursor cursor, cursorH,cursorAtual,cursorU,cursorAtv,cursorFezes;
     String today;
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",java.util.Locale.getDefault());
-    Date date = new Date();
+    Date date;
+    int[] idPet = new int[1];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
     }
      @Override
     protected void onStart() {
-        super.onStart();
-         final int[] idPet = new int[1];
+         date = new Date();
+         super.onStart();
          setContentView(R.layout.activity_main);
          TextView txtData = findViewById(R.id.txtDate);
          Calendar calendar = Calendar.getInstance();
          today = dateFormat.format(date);
-         int day = calendar.get(Calendar.DAY_OF_MONTH);
-         int month = calendar.get(Calendar.MONTH);
-         String fMonth;
+         String[] output = today.split("-");
+         String date_f =  output[2]+ "/" + output[1];
+         /*String fMonth;
          if ( month < 10) {
              fMonth = "0" + month;
          }
          else {
              fMonth = String.valueOf(month);
          }
-         String data = day + "/" + fMonth;
-         txtData.setText(data);
+         String data = day + "/" + fMonth;*/
+         txtData.setText(date_f);
 
 // Carregar ID sendo utilizado
-
          petplannerDB = new PetplannerBD(getApplicationContext());
          bd = petplannerDB.getReadableDatabase();
          cursorAtual = bd.query(
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
          if(cursorAtual.moveToFirst()) {
              idPet[0] = cursorAtual.getInt(1);
          }
+         carrega(idPet[0]);
          carrega(idPet[0]);
 // FIM
          TextView historico = findViewById(R.id.textHistorico);
@@ -278,8 +281,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                  Toast.makeText(MainActivity.this, "Primeiro Registro",Toast.LENGTH_SHORT).show();
                                  bd.insert("ATIVIDADE", null,cvAtv);
                              }
-
-                             Toast.makeText(MainActivity.this, "Atualizar BD | Arrumar espaçamento de digitação | Validar inputs ",Toast.LENGTH_SHORT).show();
+                             //Toast.makeText(MainActivity.this, "Atualizar BD | Arrumar espaçamento de digitação | Validar inputs ",Toast.LENGTH_SHORT).show();
                              bottomSheetDialogAtv.dismiss();
                          }
 
@@ -425,10 +427,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         TextView txtAtividade = findViewById(R.id.txtAtividade_status);
         TextView txtFezes = findViewById(R.id.txtFezes_status);
         try{
-
             petplannerDB = new PetplannerBD(getApplicationContext());
             bd = petplannerDB.getReadableDatabase();
-
         //Gerando cursor para perfil
             cursor = bd.query(
                     "PETS",
@@ -483,8 +483,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     }
                 }
                 else {
-                    txtHumor.setText("");
+                    txtHumor.setText("-");
                     BtnHum.setBackgroundResource(R.drawable.add_custom);
+                    bdw = petplannerDB.getWritableDatabase();
+                         ContentValues cvHw = new ContentValues();
+                         cvHw.put("_id", i);
+                         cvHw.put("TIMESTAMP", today);
+                         cvHw.put("STATUS", "-");
+                         bdw.insert("HUMOR", null,cvHw);
+                //    Toast.makeText(this, "Criado TIMESTAMP", Toast.LENGTH_SHORT).show();
                 }
         //Gerando cursor para perfil
             cursorU = bd.query(
@@ -522,8 +529,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 txtTempoAtv.setText(tempo);
             }
             else {
+                ContentValues cvA = new ContentValues();
                 txtAtividade.setText(" - ");
                 txtTempoAtv.setText("");
+                bdw2 = petplannerDB.getWritableDatabase();
+                cvA.put("_idPet", i);
+                cvA.put("TIMESTAMP", today);
+                cvA.put("TIPO", "");
+                cvA.put("TEMPO", 0);
+                bdw2.insert("ATIVIDADE", null,cvA);
+                Toast.makeText(this, "Criado TIMESTAMP", Toast.LENGTH_SHORT).show();
             }
 
         //Gerando cursor para FEZES
