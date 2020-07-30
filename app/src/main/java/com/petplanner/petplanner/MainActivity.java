@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -36,9 +35,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
     }
      @Override
     protected void onStart() {
@@ -141,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                  txtHumor.setText(getString(R.string.humorBad));
                                  status = getString(R.string.humorBad);
                          }
-
                          bd = petplannerDB.getWritableDatabase();
                          ContentValues cvH = new ContentValues();
                          cvH.put("_id", idPet[0]);
