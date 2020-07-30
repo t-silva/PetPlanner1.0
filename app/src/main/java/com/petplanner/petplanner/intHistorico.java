@@ -142,8 +142,7 @@ public class intHistorico extends AppCompatActivity {
 //                Toast.makeText(this,"NAO ACHOU MAX",Toast.LENGTH_LONG).show();
             }
             // RECUPERANDO MAIOR VALOR
-
-
+                
             // Gerando cursor para Humor
             cursorH = bd.query(
                     "HUMOR",
