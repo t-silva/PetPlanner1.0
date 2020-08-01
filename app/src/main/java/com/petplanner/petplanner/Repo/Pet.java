@@ -18,13 +18,16 @@ public class Pet {
     public int age;
     @ColumnInfo(name = "idOwner")
     public int idOwner;
+    @ColumnInfo(name = "imgResID")
+    public int imgResID;
 
-    public void insertPet(int idOwner,String name, String raca, String sexo, int age){
+    public void insertPet(int idOwner,String name, String raca, String sexo, int age, int imgResID){
         this.idOwner = idOwner;
         this.name = name;
         this.raca = raca;
         this.sexo = sexo;
         this.age = age;
+        this.imgResID = imgResID;
     }
     public void setIdOwner(int idOwner){
         this.idOwner = idOwner;
@@ -50,5 +53,20 @@ public class Pet {
     }
     public int getAge(){
         return this.age;
+    }
+    public void setImgResID(int imgResID){
+        this.imgResID = imgResID;
+    }
+    public int getImgResID(){
+        return this.imgResID;
+    }
+    public void setSexo(String sexo){
+        this.sexo = sexo;
+    }
+    public String getSexo(){
+        return this.sexo;
+    }
+    public int getpID(){
+        return this.pID;
     }
 }

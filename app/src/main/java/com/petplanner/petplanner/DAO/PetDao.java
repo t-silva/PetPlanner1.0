@@ -18,8 +18,10 @@ public interface PetDao {
     Pet findById(int id);
     @Query("SELECT * FROM pet WHERE idOwner IN (:idOwner)")
     List<Pet> getPetsByOwner(int idOwner);
+
     @Insert
     void insert(Pet pet);
+
     @Delete
     void delete(Pet pet);
 }

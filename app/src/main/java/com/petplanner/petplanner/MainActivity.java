@@ -33,7 +33,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-public class MainActivity extends AppCompatActivity /*implements AdapterView.OnItemSelectedListener*/{
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 //    SQLiteOpenHelper petplannerDB;
 //    SQLiteDatabase bd,bdw,bdw2;
 //    Cursor cursor, cursorH,cursorAtual,cursorU,cursorAtv,cursorFezes;
@@ -72,22 +72,43 @@ public class MainActivity extends AppCompatActivity /*implements AdapterView.OnI
          UserDao userDao = db.userDao();
          userDao.insert(user);
 
-
-         Pet lucky = new Pet();
-         lucky.insertPet(1,"Lucky","Vira-lata","Macho",20);
-         Pet toto = new Pet();
-         toto.insertPet(1,"Toto","Pequines","Fêmea",15);
-         //  user.setUid(1);
+         Pet pet = new Pet();
          PetDao petDao = db.petDao();
-         petDao.insert(lucky);
-         petDao.insert(toto);
-
-         List<Pet> lPets = petDao.getPetsByOwner(1);
+         pet.insertPet(1,"Lucky","Vira-lata","Macho",20,R.drawable.a1);
+         petDao.insert(pet);
+         Pet toto = new Pet();
+         pet.insertPet(1,"Toto","Pequines","Fêmea",15,R.drawable.a2);
+         petDao.insert(pet);
+         final List<Pet> lPets = petDao.getPetsByOwner(1);
 
         // Toast.makeText(this,"ID" + userDao.findById(1).uid,Toast.LENGTH_SHORT).show();
-         Toast.makeText(this,lPets.get(1).getName(),Toast.LENGTH_SHORT).show();
+         Toast.makeText(this, "id: " + lPets.get(0).getName(),Toast.LENGTH_SHORT).show();
+         final de.hdodenhof.circleimageview.CircleImageView imgPerfil = findViewById(R.id.fotoCapa);
+         imgPerfil.setImageResource(lPets.get(0).getImgResID());
 
-     }
+         LinearLayout lnChoose = findViewById(R.id.lnChoose);
+         lnChoose.setOnClickListener(new View.OnClickListener(){
+             @Override
+             public void onClick(View view){
+                 final BottomSheetDialog bottomSheetChoose = new BottomSheetDialog(MainActivity.this,R.style.BottonSheetDialogTheme);
+                 final View bottomSheetPets = LayoutInflater.from(getApplicationContext())
+                         .inflate(R.layout.custom_bottom_list,
+                                 (LinearLayout) findViewById(R.id.bottomSheetPets));
+                 ListView lvPets = (ListView) bottomSheetPets.findViewById(R.id.lvPets);
+                 lvPets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                     @Override
+                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                         idPet[0] = (int) id;
+                         imgPerfil.setImageResource(lPets.get((int) id).getImgResID());
+                         //Toast.makeText(MainActivity.this, "Carregar id" + idPet[0],Toast.LENGTH_SHORT).show();
+                         bottomSheetChoose.dismiss();
+                     }
+                 });
+
+
+
+             }
+         });
 // Carregar ID sendo utilizado
 //         petplannerDB = new PetplannerBD(getApplicationContext());
 //         bd = petplannerDB.getReadableDatabase();
@@ -402,7 +423,8 @@ public class MainActivity extends AppCompatActivity /*implements AdapterView.OnI
 //                 bottomSheetDialogFezes.show();
 //             }
 //         });
-//         LinearLayout lnChoose = findViewById(R.id.lnChoose);
+
+
 //         lnChoose.setOnClickListener(new View.OnClickListener() {
 //             @Override
 //             public void onClick(View view) {
@@ -445,7 +467,7 @@ public class MainActivity extends AppCompatActivity /*implements AdapterView.OnI
 //                 bottomSheetChoose.show();
 //             }
 //         });
-//    }
+   }
 //
 //    public void carrega(int i) {
 //        TextView txtHumor = findViewById(R.id.txtHumor_status);
@@ -589,14 +611,14 @@ public class MainActivity extends AppCompatActivity /*implements AdapterView.OnI
 //            Toast.makeText(this, "Banco de dados Não Disponível",Toast.LENGTH_SHORT).show();
 //        }
 //    }
-//    @Override
-//    public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
-//        //carrega(3);
-//    }
-//    @Override
-//    public void onNothingSelected(AdapterView<?> arg0) {
-//
-//    }
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+        //carrega(3);
+    }
+    @Override
+    public void onNothingSelected(AdapterView<?> arg0) {
+
+    }
 
 
 
