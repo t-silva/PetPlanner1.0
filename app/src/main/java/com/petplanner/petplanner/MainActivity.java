@@ -71,44 +71,53 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
          user.insertUser("Thiago", "Silva");
          UserDao userDao = db.userDao();
          userDao.insert(user);
-
+         user.setPetAtual(1);
+         user.setFirstName("Thi");
+         userDao.updateAtual(0,user.getPetAtual());
          Pet pet = new Pet();
          PetDao petDao = db.petDao();
          pet.insertPet(1,"Lucky","Vira-lata","Macho",20,R.drawable.a1);
          petDao.insert(pet);
-         Pet toto = new Pet();
          pet.insertPet(1,"Toto","Pequines","Fêmea",15,R.drawable.a2);
          petDao.insert(pet);
          final List<Pet> lPets = petDao.getPetsByOwner(1);
-
-        // Toast.makeText(this,"ID" + userDao.findById(1).uid,Toast.LENGTH_SHORT).show();
          Toast.makeText(this, "id: " + lPets.get(0).getName(),Toast.LENGTH_SHORT).show();
          final de.hdodenhof.circleimageview.CircleImageView imgPerfil = findViewById(R.id.fotoCapa);
          imgPerfil.setImageResource(lPets.get(0).getImgResID());
 
-         LinearLayout lnChoose = findViewById(R.id.lnChoose);
-         lnChoose.setOnClickListener(new View.OnClickListener(){
-             @Override
-             public void onClick(View view){
-                 final BottomSheetDialog bottomSheetChoose = new BottomSheetDialog(MainActivity.this,R.style.BottonSheetDialogTheme);
-                 final View bottomSheetPets = LayoutInflater.from(getApplicationContext())
-                         .inflate(R.layout.custom_bottom_list,
-                                 (LinearLayout) findViewById(R.id.bottomSheetPets));
-                 ListView lvPets = (ListView) bottomSheetPets.findViewById(R.id.lvPets);
-                 lvPets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                     @Override
-                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                         idPet[0] = (int) id;
-                         imgPerfil.setImageResource(lPets.get((int) id).getImgResID());
-                         //Toast.makeText(MainActivity.this, "Carregar id" + idPet[0],Toast.LENGTH_SHORT).show();
-                         bottomSheetChoose.dismiss();
-                     }
-                 });
+         List<Pet> petList = userDao.getAllPets(1);
+         TextView txtRaca = findViewById(R.id.txtRaca);
+         TextView txtSexo = findViewById(R.id.txtSexo);
+         TextView txtAge = findViewById(R.id.txtIdade);
+         txtAge.setText(String.valueOf(userDao.getAtual(1)));
+        // txtAge.setText(userDao.getFirstName(1));
+         txtRaca.setText(petList.get(0).getName());
+         txtSexo.setText(petList.get(1).getName());
 
-
-
-             }
-         });
+//
+//         LinearLayout lnChoose = findViewById(R.id.lnChoose);
+//         lnChoose.setOnClickListener(new View.OnClickListener(){
+//             @Override
+//             public void onClick(View view){
+//                 final BottomSheetDialog bottomSheetChoose = new BottomSheetDialog(MainActivity.this,R.style.BottonSheetDialogTheme);
+//                 final View bottomSheetPets = LayoutInflater.from(getApplicationContext())
+//                         .inflate(R.layout.custom_bottom_list,
+//                                 (LinearLayout) findViewById(R.id.bottomSheetPets));
+//                 ListView lvPets = (ListView) bottomSheetPets.findViewById(R.id.lvPets);
+//                 lvPets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                     @Override
+//                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                         idPet[0] = (int) id;
+//                         imgPerfil.setImageResource(lPets.get((int) id).getImgResID());
+//                         //Toast.makeText(MainActivity.this, "Carregar id" + idPet[0],Toast.LENGTH_SHORT).show();
+//                         bottomSheetChoose.dismiss();
+//                     }
+//                 });
+//
+//
+//
+//             }
+//         });
 // Carregar ID sendo utilizado
 //         petplannerDB = new PetplannerBD(getApplicationContext());
 //         bd = petplannerDB.getReadableDatabase();
