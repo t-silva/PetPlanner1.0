@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +23,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.petplanner.petplanner.DAO.PetDao;
+import com.petplanner.petplanner.DAO.UriDAO;
 import com.petplanner.petplanner.DAO.UserDao;
 import com.petplanner.petplanner.DB.PetDatabase;
 //import com.petplanner.petplanner.DB.UsersDatabase;
 import com.petplanner.petplanner.Repo.Pet;
+import com.petplanner.petplanner.Repo.Urina;
 import com.petplanner.petplanner.Repo.Users;
 
 import java.text.SimpleDateFormat;
@@ -65,34 +68,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
          }
          String data = day + "/" + fMonth;*/
          txtData.setText(date_f);
-         PetDatabase db = Room.databaseBuilder(getApplicationContext(),
-                 PetDatabase.class, "Pet").allowMainThreadQueries().build();
-         Users user = new Users();
-         user.insertUser("Thiago", "Silva");
-         UserDao userDao = db.userDao();
-         userDao.insert(user);
-         user.setPetAtual(1);
-         user.setFirstName("Thi");
-         userDao.updateAtual(0,user.getPetAtual());
-         Pet pet = new Pet();
-         PetDao petDao = db.petDao();
-         pet.insertPet(1,"Lucky","Vira-lata","Macho",20,R.drawable.a1);
-         petDao.insert(pet);
-         pet.insertPet(1,"Toto","Pequines","Fêmea",15,R.drawable.a2);
-         petDao.insert(pet);
-         final List<Pet> lPets = petDao.getPetsByOwner(1);
-         Toast.makeText(this, "id: " + lPets.get(0).getName(),Toast.LENGTH_SHORT).show();
-         final de.hdodenhof.circleimageview.CircleImageView imgPerfil = findViewById(R.id.fotoCapa);
-         imgPerfil.setImageResource(lPets.get(0).getImgResID());
 
-         List<Pet> petList = userDao.getAllPets(1);
-         TextView txtRaca = findViewById(R.id.txtRaca);
-         TextView txtSexo = findViewById(R.id.txtSexo);
-         TextView txtAge = findViewById(R.id.txtIdade);
-         txtAge.setText(String.valueOf(userDao.getAtual(1)));
-        // txtAge.setText(userDao.getFirstName(1));
-         txtRaca.setText(petList.get(0).getName());
-         txtSexo.setText(petList.get(1).getName());
 
 //
 //         LinearLayout lnChoose = findViewById(R.id.lnChoose);
@@ -476,45 +452,86 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //                 bottomSheetChoose.show();
 //             }
 //         });
+         PetDatabase db = Room.databaseBuilder(getApplicationContext(),
+                 PetDatabase.class, "Pet").allowMainThreadQueries().build();
+         Users user = new Users();
+         user.insertUser("Thiago", "Silva");
+         UserDao userDao = db.userDao();
+         userDao.insert(user);
+         user.setPetAtual(2);
+         user.setFirstName("Thi");
+         userDao.updateAtual(0,1);
+         Pet pet = new Pet();
+         PetDao petDao = db.petDao();
+         pet.insertPet(1,1,"Lucky","Vira-lata","Macho",20,R.drawable.a1);
+         petDao.insert(pet);
+         pet.insertPet(2,1,"Toto","Pequines","Fêmea",15,R.drawable.a2);
+         petDao.insert(pet);
+         Urina urina = new Urina();
+         UriDAO uriDAO = db.uriDao();
+         urina.insertUri(1,today,true,"Aqui");
+         uriDAO.insert(urina);
+         Urina hoje = uriDAO.findByDate(2,today);
+//         Toast.makeText(this,"Fez:"+hoje.getStatus(),Toast.LENGTH_SHORT).show();
+         carrega(db,user.getPetAtual());
+
    }
 //
-//    public void carrega(int i) {
-//        TextView txtHumor = findViewById(R.id.txtHumor_status);
-//        Button BtnHum = findViewById(R.id.btnHumor);
-//        TextView txtUrina = findViewById(R.id.txtUrina_status);
-//        TextView txtAtividade = findViewById(R.id.txtAtividade_status);
-//        TextView txtFezes = findViewById(R.id.txtFezes_status);
-//        try{
-//            petplannerDB = new PetplannerBD(getApplicationContext());
-//            bd = petplannerDB.getReadableDatabase();
-//        //Gerando cursor para perfil
-//            cursor = bd.query(
-//                    "PETS",
-//                    new String[] {"_id","NOME","RACA","IDADE", "SEXO","IMGRESID"},
-//                    "_id = ?",
-//                    new String[]{Integer.toString(i)},
+
+    public void carrega(PetDatabase db, int idPet) {
+        PetDao petDao = db.petDao();
+        de.hdodenhof.circleimageview.CircleImageView imgPerfil = findViewById(R.id.fotoCapa);
+        Pet loadPet = petDao.loadByIds(idPet);
+        imgPerfil.setImageResource(loadPet.getImgResID());
+        TextView txtNome = findViewById(R.id.txtNome);
+        txtNome.setText(loadPet.getName());
+        TextView txtRaca = findViewById(R.id.txtRaca);
+        txtRaca.setText(loadPet.getRaca());
+        TextView txtIdade = findViewById(R.id.txtIdade);
+        txtIdade.setText(String.valueOf(loadPet.getAge()));
+        TextView txtSexo = findViewById(R.id.txtSexo);
+        txtSexo.setText(loadPet.getSexo());
+        TextView txtUrina = findViewById(R.id.txtUrina_status);
+        UriDAO uriDAO = db.uriDao();
+        Urina urina = uriDAO.findByDate(idPet,today);
+        if (uriDAO.hasItem(idPet,today)) {
+            if (urina.getStatus()) txtUrina.setText(getString(R.string.uri_normal));
+            else txtUrina.setText(getString(R.string.uri_nFez));
+        }
+        else Toast.makeText(MainActivity.this,"Nao fez hoje",Toast.LENGTH_SHORT).show();
+        //cursorU = bd.query(
+//                    "URINA",
+//                    new String[] {"_idPET","TIMESTAMP","FEZ","OBS"},
+//                    "_idPET = ? AND TIMESTAMP = ?",
+//                    new String[]{Integer.toString(i), today},
 //                    null,
 //                    null,
 //                    null,
 //                    null);
-//            if (cursor.moveToFirst() ) {
-//                de.hdodenhof.circleimageview.CircleImageView imgPerfil = findViewById(R.id.fotoCapa);
-//                imgPerfil.setImageResource(cursor.getInt(5));
-//                TextView txtNome = findViewById(R.id.txtNome);
-//                txtNome.setText(cursor.getString(1));
-//                TextView txtRaca = findViewById(R.id.txtRaca);
-//                txtRaca.setText(cursor.getString(2));
-//                TextView txtIdade = findViewById(R.id.txtIdade);
-//                txtIdade.setText(cursor.getString(3));
-//                TextView txtSexo = findViewById(R.id.txtSexo);
-//                txtSexo.setText(cursor.getString(4));
-//              /*
-//                txtFezes.setText(cursor.getString(8));*/
+//            if(cursorU.moveToFirst()){
+//                if (cursorU.getInt(2) == 1)
+//                    txtUrina.setText(getString(R.string.uri_normal));
+//                else txtUrina.setText(getString(R.string.uri_nFez));
 //            }
-//          //  petplannerDBH = new PetplannerBD(getApplicationContext());
-//           // bdH = petplannerDB.getReadableDatabase();
-//
-//        //Gerando cursor para humor
+//            else {
+//                txtUrina.setText(" - ");
+//            }
+//            TextView txtTempoAtv = findViewById(R.id.txtTempoAtv);
+
+
+        //TextView txtHumor = findViewById(R.id.txtHumor_status);
+//        Button BtnHum = findViewById(R.id.btnHumor);
+//        TextView txtUrina = findViewById(R.id.txtUrina_status);
+//        TextView txtAtividade = findViewById(R.id.txtAtividade_status);
+//        TextView txtFezes = findViewById(R.id.txtFezes_status);
+
+              /*
+                txtFezes.setText(cursor.getString(8));*/
+
+          //  petplannerDBH = new PetplannerBD(getApplicationContext());
+           // bdH = petplannerDB.getReadableDatabase();
+
+        //Gerando cursor para humor
 //            cursorH = bd.query(
 //                    "HUMOR",
 //                    new String[] {"_id","TIMESTAMP","STATUS"},
@@ -619,7 +636,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //        } catch (SecurityException e){
 //            Toast.makeText(this, "Banco de dados Não Disponível",Toast.LENGTH_SHORT).show();
 //        }
-//    }
+    }
     @Override
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
         //carrega(3);

@@ -2,6 +2,7 @@ package com.petplanner.petplanner.DAO;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
@@ -14,14 +15,14 @@ public interface PetDao {
     @Query("SELECT * FROM pet")
     List<Pet> getAll();
     @Query("SELECT * FROM pet WHERE pID IN (:pID)")
-    List<Pet> loadAllByIds(int pID);
+    Pet loadByIds(int pID);
 
     @Query("SELECT * FROM pet WHERE pID IN (:id)")
     Pet findById(int id);
     @Query("SELECT * FROM pet WHERE idOwner IN (:idOwner)")
     List<Pet> getPetsByOwner(int idOwner);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Pet pet);
 
     @Delete

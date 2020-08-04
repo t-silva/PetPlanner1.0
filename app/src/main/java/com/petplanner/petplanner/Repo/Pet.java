@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey;
                                 childColumns = "idOwner",
                                 onDelete = ForeignKey.CASCADE))
 public class Pet {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     public int pID;
     public String name;
     public String raca;
@@ -21,7 +21,8 @@ public class Pet {
     @ColumnInfo(name = "imgResID")
     public int imgResID;
 
-    public void insertPet(int idOwner,String name, String raca, String sexo, int age, int imgResID){
+    public void insertPet(int petId,int idOwner,String name, String raca, String sexo, int age, int imgResID){
+        this.pID = petId;
         this.idOwner = idOwner;
         this.name = name;
         this.raca = raca;
