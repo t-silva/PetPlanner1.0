@@ -1,7 +1,6 @@
 package com.petplanner.petplanner.Repo;
 
 import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
@@ -10,35 +9,38 @@ import androidx.room.PrimaryKey;
                                 parentColumns = "pID",
                                 childColumns = "idPet",
                                 onDelete = ForeignKey.CASCADE))
-public class Urina {
+public class Atividade {
     @PrimaryKey @NonNull
     public String TIMESTAMP;
     public int idPet;
-    public boolean STATUS;
-    public String OBS;
+    public String TIPO;
+    public int TEMPO;
 
-    public void insertUri(int idPet,String date, boolean status, String obs){
+    public void insertAtv(int idPet,String date, String tipo, int tempo){
         this.idPet = idPet;
         this.TIMESTAMP = date;
-        this.STATUS = status;
-        this.OBS = obs;
+        this.TIPO = tipo;
+        this.TEMPO = tempo;
     }
+
     public void setTIMESTAMP(String date) {
         this.TIMESTAMP = date;
     }
     public String getTimeStamp(){
         return this.TIMESTAMP;
     }
-    public void setStatus(boolean status){
-        this.STATUS = status;
+    public void setTipo(String tipo){
+        this.TIPO = tipo;
     }
-    public boolean getStatus(){
-        return this.STATUS;
+    public String getTipo(){
+        return this.TIPO;
     }
-    public void setObs(String obs){
-        this.OBS = obs;
+    public void setTempo(int tempo){
+        this.TEMPO = tempo;
     }
-    public String getObs(){
-        return this.OBS;
+    public int getTempo(){
+        return this.TEMPO;
     }
+    public void setIdPet(int idPet){this.idPet = idPet;}
+    public int getIdPet(){return this.idPet;}
 }

@@ -1,7 +1,6 @@
 package com.petplanner.petplanner.Repo;
 
 import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
@@ -10,14 +9,14 @@ import androidx.room.PrimaryKey;
                                 parentColumns = "pID",
                                 childColumns = "idPet",
                                 onDelete = ForeignKey.CASCADE))
-public class Urina {
+public class Humor {
     @PrimaryKey @NonNull
-    public String TIMESTAMP;
+    public String TIMESTAMP ;
     public int idPet;
-    public boolean STATUS;
+    public String STATUS;
     public String OBS;
 
-    public void insertUri(int idPet,String date, boolean status, String obs){
+    public void insertHumor(int idPet,String date, String status, String obs){
         this.idPet = idPet;
         this.TIMESTAMP = date;
         this.STATUS = status;
@@ -29,10 +28,10 @@ public class Urina {
     public String getTimeStamp(){
         return this.TIMESTAMP;
     }
-    public void setStatus(boolean status){
+    public void setStatus(String status){
         this.STATUS = status;
     }
-    public boolean getStatus(){
+    public String getStatus(){
         return this.STATUS;
     }
     public void setObs(String obs){
