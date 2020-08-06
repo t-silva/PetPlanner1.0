@@ -84,7 +84,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
                         android:layout_marginRight="4dp"
-                        android:text="Vira lata" />
+                        tools:text="Vira lata" />
 
                     <TextView
                         android:id="@+id/textView3"
@@ -100,7 +100,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
                         android:layout_marginRight="4dp"
-                        android:text="4a 8m" />
+                        tools:text="4a 8m" />
 
                     <TextView
                         android:id="@+id/textView7"
@@ -118,7 +118,7 @@
                         android:layout_marginLeft="4dp"
                         android:layout_marginRight="4dp"
                         android:layout_weight="0"
-                        android:text="Macho" />
+                        tools:text="Macho" />
 
                 </LinearLayout>
 
@@ -266,7 +266,6 @@
                                     android:id="@+id/txtUrina_status"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Normal"
                                     android:textSize="11sp" />
                             </LinearLayout>
                         </LinearLayout>
@@ -396,8 +395,8 @@
                                     android:id="@+id/txtFezes_status"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Normal"
-                                    android:textSize="11sp" />
+                                    android:textSize="11sp"
+                                    tools:text="Normal" />
                             </LinearLayout>
                         </LinearLayout>
                         <LinearLayout
