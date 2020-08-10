@@ -4,6 +4,7 @@ import android.net.Uri;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.petplanner.petplanner.Repo.Pet;
@@ -21,7 +22,7 @@ public interface UriDAO {
     Urina findByDate(int idPet,String date);
     @Query("SELECT EXISTS(SELECT * FROM urina WHERE idPet IN(:idPET) AND TIMESTAMP IN(:date))")
     boolean hasItem(int idPET, String date);
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Urina odayUrina);
     @Delete
     void delete(Urina todayUrina);

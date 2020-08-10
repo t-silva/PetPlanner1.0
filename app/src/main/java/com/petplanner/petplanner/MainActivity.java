@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,12 +17,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.petplanner.petplanner.DAO.AtvDAO;
+import com.petplanner.petplanner.DAO.FezesDAO;
 import com.petplanner.petplanner.DAO.HumorDAO;
 import com.petplanner.petplanner.DAO.PetDao;
 import com.petplanner.petplanner.DAO.UriDAO;
 import com.petplanner.petplanner.DAO.UserDao;
 import com.petplanner.petplanner.DB.PetDatabase;
 import com.petplanner.petplanner.Repo.Atividade;
+import com.petplanner.petplanner.Repo.Fezes;
 import com.petplanner.petplanner.Repo.Humor;
 import com.petplanner.petplanner.Repo.Pet;
 import com.petplanner.petplanner.Repo.Urina;
@@ -29,6 +32,7 @@ import com.petplanner.petplanner.Repo.Users;
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 //    SQLiteOpenHelper petplannerDB;
@@ -314,7 +318,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
          user.setPetAtual(2);
          user.setFirstName("Thi");
          userDao.updateAtual(0,1);
-         Pet pet = new Pet();
+//         Pet pet = new Pet();
 //         PetDao petDao = db.petDao();
 //         pet.insertPet(1,1,"Lucky","Vira-lata","Macho",20,R.drawable.a1);
 //         petDao.insert(pet);
@@ -404,6 +408,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
          imgUri.setOnClickListener(new View.OnClickListener() {
              TextView txtUri = findViewById(R.id.txtUrina_status);
              int checkUri;
+             Boolean status;
              @Override
              public void onClick(View view) {
 
@@ -439,9 +444,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                  });
                  TextView txtOk = bottomSheetUri.findViewById(R.id.txtOk);
                  txtOk.setOnClickListener(new View.OnClickListener() {
-                     UriDAO uriDAO = db.uriDao();
-                     Urina todayUri = new Urina();
-
                      @Override
                      public void onClick(View view) {
 
@@ -450,18 +452,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                              case R.id.rdbUriNormal:
                                  txtUri.setText(getString(R.string.uri_normal));
                                  bottomSheetDialogUri.dismiss();
-                                 todayUri.insertUri(user.getPetAtual(),today,true,"");
+                                 status = true;
                                  //Toast.makeText(MainActivity.this, "Atualizar BD",Toast.LENGTH_SHORT).show();
                                  break;
                              case R.id.rdbUriNaoFez:
                                  txtUri.setText(getString(R.string.uri_nFez));
-                                 todayUri.insertUri(user.getPetAtual(),today,false,"");
+                                 status = false;
                                  bottomSheetDialogUri.dismiss();
                                  //Toast.makeText(MainActivity.this, "Atualizar BD",Toast.LENGTH_SHORT).show();
                                  break;
                              default:
                                  Toast.makeText(MainActivity.this, R.string.selecione,Toast.LENGTH_SHORT).show();
                          }
+                         UriDAO uriDAO = db.uriDao();
+                         Urina todayUri = new Urina();
+                         todayUri.insertUri(user.getPetAtual(),today,status,"");
                          uriDAO.insert(todayUri);
                      }
                  });
@@ -524,6 +529,87 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                  bottomSheetDialogAtv.show();
              }
 
+         });
+         ImageView imgFezes = findViewById(R.id.imgFezes);
+         imgFezes.setOnClickListener(new View.OnClickListener() {
+             TextView txtFezes = findViewById(R.id.txtFezes_status);
+             int checkFezes;
+             @Override
+             public void onClick(View view) {
+                 final BottomSheetDialog bottomSheetDialogFezes = new BottomSheetDialog(
+                         MainActivity.this,R.style.BottonSheetDialogTheme
+                 );
+                 final View bottomSheetFezes = LayoutInflater.from(getApplicationContext())
+                         .inflate(
+                                 R.layout.bottom_sheet_fezes,
+                                 (LinearLayout)findViewById(R.id.bottomSheetFezes)
+
+                         );
+                 final EditText edtObs = bottomSheetFezes.findViewById(R.id.edtFezes);
+                 final FezesDAO fezesDAO = db.fezesDAO();
+                 final Fezes fezesToday;
+                 if(fezesDAO.hasItem(user.getPetAtual(),today)) {
+                     fezesToday = fezesDAO.findByDate(user.getPetAtual(),today);
+                     edtObs.setText(fezesToday.getObs());
+                 }
+                 else {
+                     fezesToday = new Fezes();
+                 }
+                 RadioGroup rdFezes = (RadioGroup) bottomSheetFezes.findViewById(R.id.rdFezes);
+                 rdFezes.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                     public void onCheckedChanged(RadioGroup group, int checkedId)
+                     {
+                         checkFezes = checkedId;
+                     }
+                 });
+                 if (txtFezes.getText() == getString(R.string.fezes_normal) ){
+                     rdFezes.check(R.id.rdbFezesNormal);
+                 }
+                 else if (txtFezes.getText() == getString(R.string.fezes_mole) ){
+                     rdFezes.check(R.id.rdbFezesMole);
+                 }
+                 TextView txtCancel = bottomSheetFezes.findViewById(R.id.txtCancela);
+                 txtCancel.setOnClickListener(new View.OnClickListener() {
+                     @Override
+                     public void onClick(View view) {
+                         bottomSheetDialogFezes.dismiss();
+                     }
+                 });
+                 TextView txtOk = bottomSheetFezes.findViewById(R.id.txtOk);
+                 txtOk.setOnClickListener(new View.OnClickListener() {
+
+                     @Override
+                     public void onClick(View view) {
+
+//                         EditText edtObs = bottomSheetFezes.findViewById(R.id.edtFezes);
+                         switch (checkFezes){
+                             case R.id.rdbFezesNormal:
+                                 txtFezes.setText(getString(R.string.fezes_normal));
+                                 bottomSheetDialogFezes.dismiss();
+                                 fezesToday.insertFezes(user.getPetAtual(),today,getString(R.string.fezes_normal),"");
+                                 break;
+                             case R.id.rdbFezesMole:
+                                 txtFezes.setText(getString(R.string.fezes_mole));
+                                 fezesToday.insertFezes(user.getPetAtual(),today,getString(R.string.fezes_mole),"");
+                                 bottomSheetDialogFezes.dismiss();
+                                 break;
+                             case R.id.rdbFezesNaofez:
+                                 txtFezes.setText(getString(R.string.fezesNaoFez));
+                                 fezesToday.insertFezes(user.getPetAtual(),today,getString(R.string.fezesNaoFez),"");
+                                 bottomSheetDialogFezes.dismiss();
+                                 break;
+                             default:
+                                 Toast.makeText(MainActivity.this, R.string.selecione,Toast.LENGTH_SHORT).show();
+                         }
+                         fezesToday.setObs(edtObs.getText().toString());
+
+                         fezesDAO.insert(fezesToday);
+                     }
+                 });
+                 bottomSheetDialogFezes.setContentView(bottomSheetFezes);
+                 Objects.requireNonNull(bottomSheetDialogFezes.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                 bottomSheetDialogFezes.show();
+             }
          });
          carrega(db,user.getPetAtual());
 
@@ -589,14 +675,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if(atvDAO.hasItem(idPet,today)){
              loadAtv = atvDAO.findByDate(idPet,today);
             if (loadAtv.getTempo() == 0) {
-                Toast.makeText(MainActivity.this,"TEMPO = 0",Toast.LENGTH_SHORT).show();
                 txtAtividade.setText("-");
                 txtTempoAtv.setText("+");
-
             }
             else{
                 txtAtividade.setText(loadAtv.getTipo());
-                txtTempoAtv.setText(loadAtv.getTempo() + "'");
+                String atvText = loadAtv.getTempo() + "'";
+                txtTempoAtv.setText(atvText);
             }
         }
         else{
@@ -605,6 +690,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             atvDAO.insert(loadAtv);
             txtAtividade.setText("-");
             txtTempoAtv.setText("+");
+        }
+        TextView txtFezes = findViewById(R.id.txtFezes_status);
+        FezesDAO fezesDAO = db.fezesDAO();
+        Fezes loadFezes;
+        if(fezesDAO.hasItem(idPet,today)){
+            loadFezes = fezesDAO.findByDate(idPet,today);
+            Toast.makeText(this,loadFezes.getObs().toString(),Toast.LENGTH_SHORT).show();
+            if(loadFezes.getStatus().equals(getString(R.string.fezes_normal)))
+                txtFezes.setText(getString(R.string.fezes_normal));
+            else if (loadFezes.getStatus().equals(getString(R.string.fezes_mole)))
+                txtFezes.setText(getString(R.string.fezes_mole));
+            else
+                txtFezes.setText(getString(R.string.fezesNaoFez));
+        }
+        else{
+            loadFezes = new Fezes();
+            loadFezes.insertFezes(idPet,today,"-","");
+            fezesDAO.insert(loadFezes);
+            txtFezes.setText("-");
         }
 
 
