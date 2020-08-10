@@ -614,7 +614,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
          carrega(db,user.getPetAtual());
 
    }
-//
 
     public void carrega(PetDatabase db, int idPet) {
         PetDao petDao = db.petDao();
