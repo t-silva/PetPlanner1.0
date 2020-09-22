@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,29 +73,32 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 //
-//         LinearLayout lnChoose = findViewById(R.id.lnChoose);
-//         lnChoose.setOnClickListener(new View.OnClickListener(){
-//             @Override
-//             public void onClick(View view){
-//                 final BottomSheetDialog bottomSheetChoose = new BottomSheetDialog(MainActivity.this,R.style.BottonSheetDialogTheme);
-//                 final View bottomSheetPets = LayoutInflater.from(getApplicationContext())
-//                         .inflate(R.layout.custom_bottom_list,
-//                                 (LinearLayout) findViewById(R.id.bottomSheetPets));
-//                 ListView lvPets = (ListView) bottomSheetPets.findViewById(R.id.lvPets);
-//                 lvPets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                     @Override
-//                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                         idPet[0] = (int) id;
-//                         imgPerfil.setImageResource(lPets.get((int) id).getImgResID());
-//                         //Toast.makeText(MainActivity.this, "Carregar id" + idPet[0],Toast.LENGTH_SHORT).show();
-//                         bottomSheetChoose.dismiss();
-//                     }
-//                 });
-//
-//
-//
-//             }
-//         });
+         LinearLayout lnChoose = findViewById(R.id.lnChoose2);
+         lnChoose.setOnClickListener(new View.OnClickListener(){
+             @Override
+             public void onClick(View view){
+                 Toast.makeText(MainActivity.this,"funciona",Toast.LENGTH_SHORT).show();
+                 final BottomSheetDialog bottomSheetChoose = new BottomSheetDialog(MainActivity.this,R.style.BottonSheetDialogTheme);
+                 final View bottomSheetPets = LayoutInflater.from(getApplicationContext())
+                         .inflate(R.layout.custom_bottom_list,
+                                 (LinearLayout) findViewById(R.id.bottomSheetPets));
+                 ListView lvPets = (ListView) bottomSheetPets.findViewById(R.id.lvPets);
+                 lvPets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                     @Override
+                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        // idPet[0] = (int) id;
+                         //imgPerfil.setImageResource(lPets.get((int) id).getImgResID());
+                         //Toast.makeText(MainActivity.this, "Carregar id" + idPet[0],Toast.LENGTH_SHORT).show();
+                         bottomSheetChoose.dismiss();
+                     }
+                 });
+                 bottomSheetChoose.setContentView(bottomSheetPets);
+                 bottomSheetChoose.show();
+
+
+
+             }
+         });
 // Carregar ID sendo utilizado
 //         petplannerDB = new PetplannerBD(getApplicationContext());
 //         bd = petplannerDB.getReadableDatabase();
@@ -337,7 +341,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
          buttonHumor.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
-
                  final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(
                          MainActivity.this,R.style.BottonSheetDialogTheme
                  );
